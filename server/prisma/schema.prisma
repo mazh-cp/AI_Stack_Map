@@ -1,0 +1,161 @@
+// Prisma schema for the AI Security Stack Mapper.
+// SQLite is used for zero-dependency local persistence. Enum-like fields are
+// stored as strings and list/object fields as JSON, mirroring the frontend
+// TypeScript domain model.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String  @id
+  email        String  @unique
+  name         String
+  role         String // owner | appsec | soc | viewer
+  passwordHash String
+  createdAt    String
+  settings     String? // JSON: per-user preferences (locale, defaultProjectId, …)
+}
+
+model Project {
+  id          String @id
+  name        String
+  description String
+  environment String
+  owner       String
+  updatedAt   String
+}
+
+model SecurityControl {
+  id            String  @id
+  name          String
+  description   String
+  layer         String
+  mitigates     String    // string[]
+  owasp         String    // string[]
+  status        String
+  owner         String
+  evidenceLink  String?
+  notes         String?
+  weight        Int
+  positionX     Float?
+  positionY     Float?
+  vendor        String?
+  integrationId String?
+}
+
+model Risk {
+  id          String @id
+  title       String
+  description String
+  layer       String
+  owasp       String   // string[]
+  severity    String
+  likelihood  String
+  status      String
+  owner       String
+  controls    String   // string[]
+}
+
+model Incident {
+  id          String  @id
+  title       String
+  description String
+  layer       String
+  severity    String
+  status      String
+  detectedAt  String
+  relatedRisk String?
+}
+
+model ComplianceMapping {
+  owasp     String @id
+  title     String
+  status    String
+  framework String
+}
+
+model Evidence {
+  id        String @id
+  controlId String
+  title     String
+  url       String
+  addedBy   String
+  addedAt   String
+}
+
+model Integration {
+  id              String  @id
+  name            String
+  vendor          String
+  type            String
+  apiBaseUrl      String
+  enabled         Boolean
+  authMethod      String
+  status          String
+  lastHealthCheck String
+  supportedLayers String    // string[]
+  mock            Boolean
+}
+
+model ModelCoverage {
+  id                     String  @id
+  projectId              String
+  provider               String
+  modelName              String
+  deploymentType         String
+  endpoint               String
+  environment            String
+  sensitivity            String
+  owner                  String
+  useCase                String
+  allowedTools           String    // string[]
+  inputGuardrailsEnabled Boolean
+  outputGuardrailsEnabled Boolean
+  toolAccessEnabled      Boolean
+  loggingEnabled         Boolean
+  riskLevel              String
+  localRuntime           String?
+  internal               Boolean?
+  internetAccess         Boolean?
+  networkIsolated        Boolean?
+  localDataAccess        Boolean?
+  modelIntegrityVerified Boolean?
+  serverLocation         String?
+  lastEvaluation         String? // JSON summary of the latest security evaluation
+  lastEvaluatedAt        String?
+}
+
+model FileScan {
+  id                  String  @id
+  projectId           String
+  filename            String
+  fileHash            String
+  source              String
+  scanProvider        String
+  verdict             String
+  status              String
+  submittedAt         String
+  completedAt         String?
+  rawEvidence         String?
+  blockedFromRetrieval Boolean
+}
+
+model PromptInspection {
+  id          String  @id
+  projectId   String
+  modelId     String?
+  provider    String
+  promptHash  String
+  riskScore   Int
+  categories  String    // string[]
+  decision    String
+  inspectedAt String
+  rawEvidence String?
+  stage       String
+}

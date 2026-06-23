@@ -1,0 +1,46 @@
+# Full-stack demo: Postgres + API + nginx-served frontend.
+#   docker compose up --build      → http://localhost:8080
+#
+# Cookies are non-secure here (plain HTTP for local demo). For real deployment,
+# terminate TLS and set NODE_ENV=production so cookies become Secure.
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: mapper
+      POSTGRES_PASSWORD: mapper
+      POSTGRES_DB: stackmapper
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mapper -d stackmapper"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: ./server
+    environment:
+      DATABASE_URL: "postgresql://mapper:mapper@db:5432/stackmapper?schema=public"
+      PORT: "4000"
+      CORS_ORIGIN: "http://localhost:8080"
+      JWT_SECRET: "change-me-in-production"
+      # Vendor integration keys (leave blank → mock mode):
+      CHECKPOINT_TE_API_KEY: ""
+      LAKERA_GUARD_API_KEY: ""
+    depends_on:
+      db:
+        condition: service_healthy
+    expose:
+      - "4000"
+
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:

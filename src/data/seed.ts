@@ -1,0 +1,608 @@
+import type {
+  Project,
+  Risk,
+  SecurityControl,
+  Incident,
+  ComplianceMapping,
+  Evidence,
+} from "../types";
+
+export const PROJECTS: Project[] = [
+  {
+    id: "proj-copilot",
+    name: "Customer Support Copilot",
+    description:
+      "Production RAG assistant answering customer tickets with tool access to the CRM.",
+    environment: "production",
+    owner: "Platform Security",
+    updatedAt: "2026-06-18",
+  },
+  {
+    id: "proj-devbot",
+    name: "Internal DevOps Agent",
+    description: "Staging agent that triages alerts and proposes runbook actions.",
+    environment: "staging",
+    owner: "SRE Guild",
+    updatedAt: "2026-06-10",
+  },
+];
+
+// ── Risk register ─────────────────────────────────────────────────────────────
+export const RISKS: Risk[] = [
+  {
+    id: "risk-prompt-injection",
+    title: "Prompt Injection",
+    description:
+      "Adversarial instructions embedded in user input or retrieved content hijack the model's behavior.",
+    layer: "input",
+    owasp: ["LLM01"],
+    severity: "critical",
+    likelihood: "high",
+    status: "mitigating",
+    owner: "AppSec",
+    controls: ["ctl-input-filter", "ctl-pi-classifier", "ctl-gateway"],
+  },
+  {
+    id: "risk-jailbreak",
+    title: "Jailbreak Attempts",
+    description:
+      "Users craft prompts to bypass safety guardrails and elicit prohibited responses.",
+    layer: "input",
+    owasp: ["LLM01"],
+    severity: "high",
+    likelihood: "high",
+    status: "mitigating",
+    owner: "AppSec",
+    controls: ["ctl-pi-classifier", "ctl-system-prompt", "ctl-content-mod"],
+  },
+  {
+    id: "risk-data-leakage",
+    title: "Sensitive Data Leakage",
+    description:
+      "PII or confidential data is exposed in prompts, retrieved context, or model responses.",
+    layer: "output",
+    owasp: ["LLM02"],
+    severity: "critical",
+    likelihood: "medium",
+    status: "open",
+    owner: "Data Protection",
+    controls: ["ctl-pii-redaction", "ctl-dlp-scan"],
+  },
+  {
+    id: "risk-unsafe-tool",
+    title: "Unsafe Tool Execution",
+    description:
+      "The agent invokes dangerous tools or actions beyond its intended authority.",
+    layer: "tools",
+    owasp: ["LLM06"],
+    severity: "critical",
+    likelihood: "medium",
+    status: "open",
+    owner: "Platform Security",
+    controls: ["ctl-tool-allowlist", "ctl-least-priv"],
+  },
+  {
+    id: "risk-retrieval-poison",
+    title: "Retrieval Poisoning",
+    description:
+      "Malicious documents injected into the knowledge base manipulate model outputs.",
+    layer: "retrieval",
+    owasp: ["LLM04", "LLM08"],
+    severity: "high",
+    likelihood: "medium",
+    status: "open",
+    owner: "Data Engineering",
+    controls: ["ctl-source-validation"],
+  },
+  {
+    id: "risk-secret-exposure",
+    title: "Secret Exposure",
+    description:
+      "API keys, system prompts, or credentials are leaked through logs or responses.",
+    layer: "secrets",
+    owasp: ["LLM07", "LLM02"],
+    severity: "high",
+    likelihood: "medium",
+    status: "mitigating",
+    owner: "Platform Security",
+    controls: ["ctl-vault", "ctl-prompt-store", "ctl-system-prompt"],
+  },
+  {
+    id: "risk-insecure-output",
+    title: "Insecure Output Handling",
+    description:
+      "Unvalidated model output is rendered or executed, enabling XSS or injection downstream.",
+    layer: "output",
+    owasp: ["LLM05"],
+    severity: "high",
+    likelihood: "high",
+    status: "mitigating",
+    owner: "AppSec",
+    controls: ["ctl-schema-validation", "ctl-output-sanitize"],
+  },
+  {
+    id: "risk-missing-audit",
+    title: "Missing Audit Logs",
+    description:
+      "Insufficient logging prevents detection, forensics, and compliance reporting.",
+    layer: "monitoring",
+    owasp: ["LLM02"],
+    severity: "medium",
+    likelihood: "high",
+    status: "mitigating",
+    owner: "SOC",
+    controls: ["ctl-siem", "ctl-soc-ticket", "ctl-audit-export"],
+  },
+];
+
+// ── Control library ───────────────────────────────────────────────────────────
+export const CONTROLS: SecurityControl[] = [
+  // Input
+  {
+    id: "ctl-input-filter",
+    name: "Input Filtering / WAF",
+    description:
+      "Cloudflare WAF and bot defense filter malicious traffic before it reaches the gateway.",
+    layer: "input",
+    mitigates: ["risk-prompt-injection"],
+    owasp: ["LLM01"],
+    status: "verified",
+    owner: "Network Security",
+    evidenceLink: "https://wiki.internal/security/waf-config",
+    notes: "Managed ruleset + custom LLM abuse rules deployed 2026-05.",
+    weight: 3,
+    position: { x: 40, y: 60 },
+  },
+  {
+    id: "ctl-pi-classifier",
+    name: "Prompt Injection Classifier",
+    description:
+      "ML classifier scores every prompt for injection / jailbreak intent and blocks high-risk inputs.",
+    layer: "input",
+    mitigates: ["risk-prompt-injection", "risk-jailbreak"],
+    owasp: ["LLM01"],
+    status: "implemented",
+    owner: "AppSec",
+    evidenceLink: "https://wiki.internal/security/pi-classifier",
+    notes: "Threshold tuning in progress; false-positive rate ~2%.",
+    weight: 3,
+    position: { x: 40, y: 160 },
+  },
+  {
+    id: "ctl-rate-limit",
+    name: "Rate Limiting",
+    description:
+      "Per-user and per-IP rate limits prevent abuse, scraping and unbounded consumption.",
+    layer: "input",
+    mitigates: ["risk-jailbreak"],
+    owasp: ["LLM10"],
+    status: "verified",
+    owner: "Platform Security",
+    weight: 2,
+    position: { x: 40, y: 260 },
+  },
+  // Retrieval
+  {
+    id: "ctl-source-validation",
+    name: "Retrieval Source Validation",
+    description:
+      "Validate and sign ingested documents; quarantine untrusted sources before embedding.",
+    layer: "retrieval",
+    mitigates: ["risk-retrieval-poison"],
+    owasp: ["LLM04", "LLM08"],
+    status: "planned",
+    owner: "Data Engineering",
+    notes: "Design approved; implementation scheduled Q3.",
+    weight: 3,
+    position: { x: 320, y: 110 },
+  },
+  // Secrets & prompts
+  {
+    id: "ctl-gateway",
+    name: "LLM Gateway",
+    description:
+      "Central gateway enforces auth, policy, logging and routing for all model calls.",
+    layer: "secrets",
+    mitigates: ["risk-prompt-injection"],
+    owasp: ["LLM01", "LLM10"],
+    status: "verified",
+    owner: "Platform Security",
+    evidenceLink: "https://wiki.internal/security/gateway",
+    weight: 3,
+    position: { x: 600, y: 40 },
+  },
+  {
+    id: "ctl-vault",
+    name: "Vault for Secrets",
+    description:
+      "HashiCorp Vault stores API keys & credentials; no secrets in code or env files.",
+    layer: "secrets",
+    mitigates: ["risk-secret-exposure"],
+    owasp: ["LLM07"],
+    status: "verified",
+    owner: "Platform Security",
+    evidenceLink: "https://wiki.internal/security/vault",
+    weight: 3,
+    position: { x: 600, y: 140 },
+  },
+  {
+    id: "ctl-prompt-store",
+    name: "Prompt Store",
+    description:
+      "Versioned, access-controlled store for system prompts with change review.",
+    layer: "secrets",
+    mitigates: ["risk-secret-exposure"],
+    owasp: ["LLM07"],
+    status: "implemented",
+    owner: "AppSec",
+    weight: 2,
+    position: { x: 600, y: 240 },
+  },
+  {
+    id: "ctl-system-prompt",
+    name: "Hardened System Prompt",
+    description:
+      "Defensive system prompt with instruction hierarchy and leak resistance.",
+    layer: "secrets",
+    mitigates: ["risk-jailbreak", "risk-secret-exposure"],
+    owasp: ["LLM07", "LLM01"],
+    status: "implemented",
+    owner: "AppSec",
+    weight: 2,
+    position: { x: 600, y: 340 },
+  },
+  // Model
+  {
+    id: "ctl-signed-model",
+    name: "Signed Model Files",
+    description:
+      "Model artifacts are signed and integrity-verified before deployment.",
+    layer: "model",
+    mitigates: ["risk-retrieval-poison"],
+    owasp: ["LLM03", "LLM04"],
+    status: "planned",
+    owner: "ML Platform",
+    weight: 2,
+    position: { x: 880, y: 110 },
+  },
+  // Tools
+  {
+    id: "ctl-tool-allowlist",
+    name: "Tool Allow-list",
+    description:
+      "Only explicitly approved tools are callable; everything else is denied by default.",
+    layer: "tools",
+    mitigates: ["risk-unsafe-tool"],
+    owasp: ["LLM06"],
+    status: "planned",
+    owner: "Platform Security",
+    notes: "Allow-list defined; enforcement middleware not yet shipped.",
+    weight: 3,
+    position: { x: 1160, y: 60 },
+  },
+  {
+    id: "ctl-least-priv",
+    name: "Least Privilege Tool Access",
+    description:
+      "Scoped, short-lived credentials per tool; no standing write access.",
+    layer: "tools",
+    mitigates: ["risk-unsafe-tool"],
+    owasp: ["LLM06"],
+    status: "not_implemented",
+    owner: "Platform Security",
+    weight: 3,
+    position: { x: 1160, y: 160 },
+  },
+  // Output
+  {
+    id: "ctl-output-sanitize",
+    name: "HTML / SQL Sanitization",
+    description:
+      "Sanitize and encode model output before rendering or passing to downstream systems.",
+    layer: "output",
+    mitigates: ["risk-insecure-output"],
+    owasp: ["LLM05"],
+    status: "implemented",
+    owner: "AppSec",
+    weight: 2,
+    position: { x: 1440, y: 40 },
+  },
+  {
+    id: "ctl-schema-validation",
+    name: "Output Schema Validation",
+    description:
+      "Validate structured model output against a strict schema before use.",
+    layer: "output",
+    mitigates: ["risk-insecure-output"],
+    owasp: ["LLM05"],
+    status: "verified",
+    owner: "AppSec",
+    weight: 2,
+    position: { x: 1440, y: 140 },
+  },
+  {
+    id: "ctl-content-mod",
+    name: "Content Moderation",
+    description:
+      "Moderation pass blocks unsafe, toxic or policy-violating responses.",
+    layer: "output",
+    mitigates: ["risk-jailbreak"],
+    owasp: ["LLM09"],
+    status: "implemented",
+    owner: "Trust & Safety",
+    weight: 2,
+    position: { x: 1440, y: 240 },
+  },
+  {
+    id: "ctl-pii-redaction",
+    name: "PII Redaction",
+    description:
+      "Detect and redact PII from prompts, context and responses.",
+    layer: "output",
+    mitigates: ["risk-data-leakage"],
+    owasp: ["LLM02"],
+    status: "planned",
+    owner: "Data Protection",
+    weight: 3,
+    position: { x: 1440, y: 340 },
+  },
+  {
+    id: "ctl-dlp-scan",
+    name: "DLP Scan",
+    description:
+      "Data-loss-prevention scanning on outbound responses with block-and-log.",
+    layer: "output",
+    mitigates: ["risk-data-leakage"],
+    owasp: ["LLM02"],
+    status: "not_implemented",
+    owner: "Data Protection",
+    weight: 3,
+    position: { x: 1440, y: 440 },
+  },
+  // Delivery
+  {
+    id: "ctl-block-log",
+    name: "Block & Log",
+    description:
+      "Policy violations are blocked at delivery and logged with full context.",
+    layer: "delivery",
+    mitigates: ["risk-insecure-output"],
+    owasp: ["LLM05"],
+    status: "implemented",
+    owner: "Platform Security",
+    weight: 2,
+    position: { x: 1720, y: 110 },
+  },
+  // Monitoring / SIEM
+  {
+    id: "ctl-siem",
+    name: "SIEM Logging",
+    description:
+      "All gateway, tool and policy events forwarded to the SIEM for correlation.",
+    layer: "monitoring",
+    mitigates: ["risk-missing-audit"],
+    owasp: ["LLM02"],
+    status: "verified",
+    owner: "SOC",
+    evidenceLink: "https://wiki.internal/security/siem-pipeline",
+    weight: 3,
+    position: { x: 2000, y: 40 },
+  },
+  {
+    id: "ctl-soc-ticket",
+    name: "SOC Ticketing",
+    description:
+      "High-severity detections auto-create SOC tickets with enrichment.",
+    layer: "monitoring",
+    mitigates: ["risk-missing-audit"],
+    owasp: ["LLM02"],
+    status: "implemented",
+    owner: "SOC",
+    weight: 2,
+    position: { x: 2000, y: 140 },
+  },
+  {
+    id: "ctl-audit-export",
+    name: "Compliance Audit Export",
+    description:
+      "Tamper-evident audit log export for compliance and forensics.",
+    layer: "monitoring",
+    mitigates: ["risk-missing-audit"],
+    owasp: ["LLM02"],
+    status: "planned",
+    owner: "Compliance",
+    weight: 2,
+    position: { x: 2000, y: 240 },
+  },
+  // File Security Gateway (Check Point)
+  {
+    id: "ctl-file-gateway",
+    name: "File Security Gateway",
+    description:
+      "All uploaded and ingested files are routed through Check Point before entering the RAG corpus.",
+    layer: "file",
+    mitigates: ["risk-retrieval-poison"],
+    owasp: ["LLM04", "LLM03"],
+    status: "implemented",
+    owner: "Platform Security",
+    weight: 3,
+    vendor: "checkpoint",
+    integrationId: "int-cp-te",
+    position: { x: 320, y: 40 },
+  },
+  {
+    id: "ctl-cp-te",
+    name: "Check Point Threat Emulation",
+    description:
+      "Sandbox detonation of suspicious files; malicious/suspicious verdicts are blocked from retrieval.",
+    layer: "file",
+    mitigates: ["risk-retrieval-poison"],
+    owasp: ["LLM04"],
+    status: "verified",
+    owner: "Platform Security",
+    evidenceLink: "https://te.checkpoint.com",
+    weight: 3,
+    vendor: "checkpoint",
+    integrationId: "int-cp-te",
+    position: { x: 320, y: 140 },
+  },
+  {
+    id: "ctl-cp-filescan",
+    name: "Check Point TE File Scan",
+    description:
+      "File reputation + AV engines for PDFs, Office docs, archives and email attachments.",
+    layer: "file",
+    mitigates: ["risk-retrieval-poison"],
+    owasp: ["LLM04", "LLM03"],
+    status: "implemented",
+    owner: "Platform Security",
+    weight: 2,
+    vendor: "checkpoint",
+    integrationId: "int-cp-filescan",
+    position: { x: 320, y: 240 },
+  },
+  // Prompt Firewall (Lakera Guard)
+  {
+    id: "ctl-lakera-input",
+    name: "Lakera Guard — Input",
+    description:
+      "Screens every user prompt for injection, jailbreaks and unsafe content before LLM execution.",
+    layer: "guard",
+    mitigates: ["risk-prompt-injection", "risk-jailbreak"],
+    owasp: ["LLM01"],
+    status: "implemented",
+    owner: "AppSec",
+    weight: 3,
+    vendor: "lakera",
+    integrationId: "int-lakera",
+    position: { x: 600, y: 60 },
+  },
+  {
+    id: "ctl-lakera-output",
+    name: "Lakera Guard — Output",
+    description:
+      "Inspects model output for data leakage and policy violations before delivery.",
+    layer: "guard",
+    mitigates: ["risk-data-leakage", "risk-insecure-output"],
+    owasp: ["LLM02", "LLM05"],
+    status: "planned",
+    owner: "AppSec",
+    weight: 3,
+    vendor: "lakera",
+    integrationId: "int-lakera",
+    position: { x: 600, y: 160 },
+  },
+];
+
+// ── Incidents ─────────────────────────────────────────────────────────────────
+export const INCIDENTS: Incident[] = [
+  {
+    id: "inc-001",
+    title: "Prompt injection via support ticket attachment",
+    description:
+      "Crafted instructions in an uploaded document attempted to exfiltrate the system prompt.",
+    layer: "input",
+    severity: "high",
+    status: "contained",
+    detectedAt: "2026-06-15 09:42",
+    relatedRisk: "risk-prompt-injection",
+  },
+  {
+    id: "inc-002",
+    title: "PII detected in model response",
+    description:
+      "DLP-shadow flagged an email address echoed from retrieved context into a response.",
+    layer: "output",
+    severity: "critical",
+    status: "investigating",
+    detectedAt: "2026-06-17 14:08",
+    relatedRisk: "risk-data-leakage",
+  },
+  {
+    id: "inc-003",
+    title: "Anomalous tool-call volume from agent",
+    description:
+      "DevOps agent attempted 40 CRM writes in 2 minutes; rate limiter throttled the burst.",
+    layer: "tools",
+    severity: "medium",
+    status: "closed",
+    detectedAt: "2026-06-12 22:15",
+    relatedRisk: "risk-unsafe-tool",
+  },
+  {
+    id: "inc-004",
+    title: "Jailbreak attempt — roleplay bypass",
+    description:
+      "User attempted a multi-turn roleplay to bypass safety guardrails; blocked by classifier.",
+    layer: "input",
+    severity: "low",
+    status: "closed",
+    detectedAt: "2026-06-11 11:30",
+    relatedRisk: "risk-jailbreak",
+  },
+];
+
+// ── Compliance mappings (OWASP coverage) ──────────────────────────────────────
+export const COMPLIANCE: ComplianceMapping[] = [
+  {
+    owasp: "LLM01",
+    title: "Prompt Injection",
+    status: "partial",
+    framework: "OWASP LLM Top 10",
+  },
+  {
+    owasp: "LLM02",
+    title: "Sensitive Information Disclosure",
+    status: "non_compliant",
+    framework: "OWASP LLM Top 10",
+  },
+  {
+    owasp: "LLM04",
+    title: "Data & Model Poisoning",
+    status: "partial",
+    framework: "OWASP LLM Top 10",
+  },
+  {
+    owasp: "LLM05",
+    title: "Improper Output Handling",
+    status: "compliant",
+    framework: "OWASP LLM Top 10",
+  },
+  {
+    owasp: "LLM06",
+    title: "Excessive Agency",
+    status: "non_compliant",
+    framework: "OWASP LLM Top 10",
+  },
+  {
+    owasp: "LLM07",
+    title: "System Prompt Leakage",
+    status: "partial",
+    framework: "OWASP LLM Top 10",
+  },
+  {
+    owasp: "LLM10",
+    title: "Unbounded Consumption",
+    status: "compliant",
+    framework: "OWASP LLM Top 10",
+  },
+];
+
+export const EVIDENCE: Evidence[] = [
+  {
+    id: "ev-1",
+    controlId: "ctl-input-filter",
+    title: "WAF ruleset configuration export",
+    url: "https://wiki.internal/security/waf-config",
+    addedBy: "n.network",
+    addedAt: "2026-05-20",
+  },
+  {
+    id: "ev-2",
+    controlId: "ctl-siem",
+    title: "SIEM pipeline architecture",
+    url: "https://wiki.internal/security/siem-pipeline",
+    addedBy: "s.soc",
+    addedAt: "2026-06-01",
+  },
+];

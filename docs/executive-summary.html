@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>AI Security Stack Mapper — Executive Summary</title>
+    <style>
+      @page {
+        size: A4;
+        margin: 16mm 14mm;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      body {
+        font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: #1f2330;
+        font-size: 11px;
+        line-height: 1.55;
+        margin: 0;
+      }
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        color: #0f1626;
+      }
+      p {
+        margin: 0 0 8px;
+      }
+      a {
+        color: #0e7490;
+        text-decoration: none;
+      }
+      code {
+        font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+        font-size: 10px;
+        background: #eef2f6;
+        padding: 1px 5px;
+        border-radius: 4px;
+        color: #0f1626;
+      }
+      .accent {
+        color: #0891b2;
+      }
+
+      /* ── Cover band ── */
+      .cover {
+        background: linear-gradient(135deg, #0f1626 0%, #15304a 100%);
+        color: #fff;
+        border-radius: 14px;
+        padding: 26px 28px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 22px;
+      }
+      .cover .eyebrow {
+        font-size: 10px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #5ee0f0;
+        font-weight: 700;
+      }
+      .cover h1 {
+        color: #fff;
+        font-size: 24px;
+        margin: 6px 0 4px;
+      }
+      .cover .sub {
+        color: #aebfd4;
+        font-size: 11px;
+      }
+      .score-chip {
+        text-align: center;
+        border: 3px solid #ef4444;
+        border-radius: 50%;
+        width: 84px;
+        height: 84px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+      .score-chip .n {
+        font-size: 26px;
+        font-weight: 800;
+        line-height: 1;
+        color: #fff;
+      }
+      .score-chip .g {
+        font-size: 9px;
+        letter-spacing: 1px;
+        color: #aebfd4;
+        text-transform: uppercase;
+      }
+
+      /* ── Sections ── */
+      section {
+        margin-bottom: 16px;
+      }
+      h2 {
+        font-size: 14px;
+        padding-bottom: 5px;
+        border-bottom: 2px solid #0891b2;
+        margin-bottom: 9px;
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+      }
+      h2 .num {
+        color: #0891b2;
+        font-weight: 800;
+      }
+      h3 {
+        font-size: 11.5px;
+        margin: 10px 0 4px;
+        color: #15304a;
+      }
+
+      .callout {
+        border-left: 3px solid #0891b2;
+        background: #f0f9fb;
+        padding: 8px 12px;
+        border-radius: 0 8px 8px 0;
+        margin: 8px 0;
+        font-style: italic;
+        color: #15304a;
+      }
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      ul,
+      ol {
+        margin: 4px 0 8px;
+        padding-left: 18px;
+      }
+      li {
+        margin-bottom: 2px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10px;
+        margin-top: 4px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 5px 8px;
+        border-bottom: 1px solid #e3e9ef;
+        vertical-align: top;
+      }
+      th {
+        background: #f4f7fa;
+        color: #15304a;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 8.5px;
+        letter-spacing: 0.5px;
+      }
+
+      .tag {
+        display: inline-block;
+        font-size: 8.5px;
+        font-weight: 700;
+        padding: 1px 6px;
+        border-radius: 4px;
+      }
+      .tag.cp {
+        background: #fde2ec;
+        color: #be1556;
+      }
+      .tag.lk {
+        background: #d9f6fb;
+        color: #0e7490;
+      }
+
+      .avoid {
+        page-break-inside: avoid;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+      .muted {
+        color: #6b7280;
+        font-size: 9.5px;
+      }
+      .footer {
+        margin-top: 18px;
+        border-top: 1px solid #e3e9ef;
+        padding-top: 8px;
+        color: #6b7280;
+        font-size: 9px;
+        text-align: center;
+      }
+      /* diagram */
+      .diagram {
+        width: 100%;
+        margin: 6px 0 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cover">
+      <div>
+        <div class="eyebrow">Project Overview &amp; Solution Brief</div>
+        <h1>AI Security Stack Mapper</h1>
+        <div class="sub">
+          Map, assess &amp; secure every layer of an LLM application stack ·
+          v1.0.0 · 2026-06-23
+        </div>
+      </div>
+      <div class="score-chip">
+        <span class="n">50</span>
+        <span class="g">Grade&nbsp;F</span>
+      </div>
+    </div>
+
+    <section class="avoid">
+      <h2><span class="num">1.</span> The Problem</h2>
+      <p>
+        Organizations are shipping LLM-powered applications faster than they can
+        secure them. Unlike traditional apps, an LLM application has a
+        <strong>wide, layered attack surface</strong>: a single user request
+        flows through input handling, retrieval (RAG), system prompts and
+        secrets, the model, tool/agent execution, output rendering, delivery,
+        and monitoring. Each layer introduces distinct risks &mdash; prompt
+        injection, jailbreaks, sensitive-data leakage, unsafe tool execution,
+        retrieval poisoning, insecure output handling &mdash; and most teams have
+        <strong>no single place</strong> to see which layers are protected, where
+        the gaps are, and what to fix first.
+      </p>
+    </section>
+
+    <section class="avoid">
+      <h2><span class="num">2.</span> The Solution</h2>
+      <p>
+        The <strong>AI Security Stack Mapper</strong> is a SOC-style dashboard
+        that lets a team map, assess, and secure every layer of an LLM
+        application stack. It models the application as a
+        <strong>defense-in-depth pipeline</strong>, visualizes how prompts and
+        files flow through security controls, shows where attacks can happen, and
+        tracks which controls mitigate each risk &mdash; producing a single
+        <strong>AI Security Score</strong> and an exportable assessment report.
+      </p>
+      <p>
+        It ships with realistic demo data and integrates
+        <span class="tag cp">Check Point</span> Threat Emulation / TE File Scan
+        (file security) and <span class="tag lk">Lakera</span> Guard (prompt
+        firewall), plus full LLM coverage management for hosted and local models.
+      </p>
+      <div class="callout">
+        One-line value: turn &ldquo;we have an LLM app somewhere in
+        production&rdquo; into a measured, layer-by-layer security posture with a
+        clear remediation plan.
+      </div>
+    </section>
+
+    <section class="avoid">
+      <h2><span class="num">3.</span> How It Works &mdash; the Defense-in-Depth Flow</h2>
+      <p>
+        Every request and ingested document is treated as untrusted and passes
+        through a sequence of security zones. The app maps controls onto each
+        zone:
+      </p>
+      <!-- Defense-in-depth pipeline -->
+      <svg class="diagram" viewBox="0 0 700 232" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, Segoe UI, sans-serif">
+        <defs>
+          <marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8" />
+          </marker>
+        </defs>
+        <!-- row 1 -->
+        <g>
+          <rect x="6" y="14" width="96" height="44" rx="7" fill="#fde2ec" stroke="#be1556" />
+          <text x="54" y="33" text-anchor="middle" font-size="10" font-weight="700" fill="#7a0d36">Users &amp;</text>
+          <text x="54" y="46" text-anchor="middle" font-size="10" font-weight="700" fill="#7a0d36">Threats</text>
+
+          <rect x="122" y="14" width="96" height="44" rx="7" fill="#e0f7fb" stroke="#0e7490" />
+          <text x="170" y="33" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0e5566">Input Security</text>
+          <text x="170" y="46" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0e5566">Gateway</text>
+
+          <rect x="238" y="14" width="110" height="44" rx="7" fill="#fde2ec" stroke="#be1556" />
+          <text x="293" y="30" text-anchor="middle" font-size="9.5" font-weight="700" fill="#7a0d36">File Security GW</text>
+          <text x="293" y="44" text-anchor="middle" font-size="8" fill="#a23a63">Check Point TE + Scan</text>
+
+          <rect x="368" y="14" width="104" height="44" rx="7" fill="#d9f6fb" stroke="#0891b2" />
+          <text x="420" y="30" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0e5566">Prompt Firewall</text>
+          <text x="420" y="44" text-anchor="middle" font-size="8" fill="#0e7490">Lakera Guard</text>
+
+          <rect x="492" y="14" width="100" height="44" rx="7" fill="#ede9fe" stroke="#7c3aed" />
+          <text x="542" y="30" text-anchor="middle" font-size="9.5" font-weight="700" fill="#4c1d95">Retrieval</text>
+          <text x="542" y="44" text-anchor="middle" font-size="8" fill="#6d28d9">Vector DB / RAG</text>
+
+          <line x1="102" y1="36" x2="120" y2="36" stroke="#94a3b8" marker-end="url(#ar)" />
+          <line x1="348" y1="36" x2="366" y2="36" stroke="#94a3b8" marker-end="url(#ar)" />
+          <line x1="472" y1="36" x2="490" y2="36" stroke="#94a3b8" marker-end="url(#ar)" />
+          <!-- file feeds into retrieval after scan -->
+          <line x1="293" y1="58" x2="293" y2="70" stroke="#94a3b8" />
+        </g>
+        <!-- connector down to row 2 -->
+        <path d="M592 36 H612 V96 H612" fill="none" stroke="#94a3b8" />
+        <line x1="612" y1="96" x2="600" y2="96" stroke="#94a3b8" marker-end="url(#ar)" />
+        <!-- row 2 (reversed flow visual) -->
+        <g>
+          <rect x="492" y="78" width="100" height="40" rx="7" fill="#fef3c7" stroke="#d97706" />
+          <text x="542" y="95" text-anchor="middle" font-size="9.5" font-weight="700" fill="#92400e">Secrets &amp;</text>
+          <text x="542" y="108" text-anchor="middle" font-size="9.5" font-weight="700" fill="#92400e">Prompt Store</text>
+
+          <rect x="368" y="78" width="104" height="40" rx="7" fill="#dcfce7" stroke="#16a34a" />
+          <text x="420" y="95" text-anchor="middle" font-size="9.5" font-weight="700" fill="#14532d">Model Coverage</text>
+          <text x="420" y="108" text-anchor="middle" font-size="8" fill="#15803d">Hosted &amp; Local LLMs</text>
+
+          <rect x="252" y="78" width="96" height="40" rx="7" fill="#fde2ec" stroke="#be1556" />
+          <text x="300" y="101" text-anchor="middle" font-size="9.5" font-weight="700" fill="#7a0d36">Tool Gateway</text>
+
+          <rect x="136" y="78" width="96" height="40" rx="7" fill="#e0f7fb" stroke="#0e7490" />
+          <text x="184" y="95" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0e5566">Output</text>
+          <text x="184" y="108" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0e5566">Defenses</text>
+
+          <line x1="490" y1="98" x2="474" y2="98" stroke="#94a3b8" marker-end="url(#ar)" />
+          <line x1="366" y1="98" x2="350" y2="98" stroke="#94a3b8" marker-end="url(#ar)" />
+          <line x1="250" y1="98" x2="234" y2="98" stroke="#94a3b8" marker-end="url(#ar)" />
+        </g>
+        <!-- connector down to row 3 -->
+        <path d="M136 98 H120 V150 H132" fill="none" stroke="#94a3b8" />
+        <line x1="120" y1="150" x2="132" y2="150" stroke="#94a3b8" marker-end="url(#ar)" />
+        <!-- row 3 -->
+        <g>
+          <rect x="136" y="132" width="96" height="40" rx="7" fill="#ede9fe" stroke="#7c3aed" />
+          <text x="184" y="155" text-anchor="middle" font-size="9.5" font-weight="700" fill="#4c1d95">Delivery</text>
+
+          <rect x="252" y="132" width="110" height="40" rx="7" fill="#dcfce7" stroke="#16a34a" />
+          <text x="307" y="155" text-anchor="middle" font-size="9.5" font-weight="700" fill="#14532d">SIEM &amp; Audit</text>
+
+          <rect x="382" y="132" width="120" height="40" rx="7" fill="#ede9fe" stroke="#7c3aed" />
+          <text x="442" y="155" text-anchor="middle" font-size="9.5" font-weight="700" fill="#4c1d95">Compliance Reports</text>
+
+          <line x1="232" y1="152" x2="250" y2="152" stroke="#94a3b8" marker-end="url(#ar)" />
+          <line x1="362" y1="152" x2="380" y2="152" stroke="#94a3b8" marker-end="url(#ar)" />
+        </g>
+        <!-- legend -->
+        <g font-size="8" fill="#6b7280">
+          <text x="6" y="196" font-weight="700" fill="#15304a">Flow:</text>
+          <text x="40" y="196">user input &amp; files enter (top) &rarr; model &amp; tools (middle) &rarr; delivery, audit &amp; compliance (bottom).</text>
+          <text x="6" y="212"><tspan fill="#be1556" font-weight="700">Check Point</tspan> scans files before the RAG corpus; <tspan fill="#0e7490" font-weight="700">Lakera Guard</tspan> screens prompts &amp; outputs.</text>
+          <text x="6" y="226">Malicious / suspicious files are <tspan font-weight="700">blocked from retrieval</tspan>; risky prompts are blocked, redacted or escalated.</text>
+        </g>
+      </svg>
+      <ul>
+        <li>
+          <strong>Files</strong> (uploads, KB documents, attachments) are
+          detonated/scored by <span class="tag cp">Check Point</span> before they
+          enter the vector DB; malicious or suspicious verdicts are
+          <strong>blocked from the RAG corpus</strong>.
+        </li>
+        <li>
+          <strong>Prompts</strong> are screened by
+          <span class="tag lk">Lakera</span> Guard for injection, jailbreak,
+          unsafe content and leakage &mdash; returning a risk score and a decision
+          (<strong>allow / block / redact / escalate</strong>). Outputs can be
+          screened the same way.
+        </li>
+        <li>
+          <strong>Models</strong> (OpenAI, Azure, Anthropic, Gemini, Llama,
+          Mistral, Cohere, local runtimes, custom) are registered with their
+          guardrail and isolation posture.
+        </li>
+        <li>
+          <strong>Every event</strong> is designed to flow to SIEM/audit for
+          detection and compliance reporting.
+        </li>
+      </ul>
+    </section>
+
+    <section class="avoid">
+      <h2><span class="num">4.</span> What a User Does (Workflow)</h2>
+      <ol>
+        <li><strong>Dashboard</strong> &mdash; overall AI Security Score, protected layers, open risks, critical gaps, vendor-protection metrics, recent incidents.</li>
+        <li><strong>LLM Stack Map</strong> &mdash; interactive defense-in-depth diagram; nodes color-coded by status; click to inspect/edit.</li>
+        <li><strong>Layer Assessment</strong> &mdash; mark each control <em>Not implemented &rarr; Planned &rarr; Implemented &rarr; Verified</em>.</li>
+        <li><strong>Risk Register</strong> &mdash; track LLM threats, severity, and mitigating controls (mapped to OWASP Top 10 for LLM Apps).</li>
+        <li><strong>Control Library / Architecture Builder</strong> &mdash; browse, filter, add, or drag controls onto the canvas.</li>
+        <li><strong>Integrations</strong> &mdash; File Security Gateway, Lakera Guard, and Model Coverage do the live (mock) work.</li>
+        <li><strong>Report Generator</strong> &mdash; export an executive report (Markdown or PDF) with findings, gaps and a remediation plan.</li>
+      </ol>
+    </section>
+
+    <section class="avoid">
+      <h2><span class="num">5.</span> The AI Security Score</h2>
+      <p>A single 0&ndash;100 score (graded A&ndash;F) combines:</p>
+      <div class="grid2">
+        <div>
+          <h3>Weighted coverage</h3>
+          <p class="muted">
+            Credit scales with control maturity: Planned 25% &rarr; Implemented
+            75% &rarr; Verified 100%.
+          </p>
+          <h3 style="color:#16a34a">Bonuses (+)</h3>
+          <ul class="muted">
+            <li>Check Point file scanning enabled</li>
+            <li>Lakera Guard input / output protection</li>
+            <li>Fully-guardrailed production models</li>
+            <li>Network-isolated local LLMs</li>
+            <li>Per-model tool restriction</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="color:#ef4444">Penalties (&minus;)</h3>
+          <ul class="muted">
+            <li>Files entering RAG unscanned</li>
+            <li>Missing logging, output moderation, tool restriction or secrets management</li>
+            <li>Models missing input / output guardrails</li>
+            <li>Local LLMs with internet access or unrestricted tools</li>
+            <li>Unresolved critical risks</li>
+          </ul>
+        </div>
+      </div>
+      <p class="muted">
+        The score updates <strong>live</strong> as controls, integrations and
+        model posture change, so remediation progress is immediately visible.
+      </p>
+    </section>
+
+    <section class="avoid page-break">
+      <h2><span class="num">6.</span> Data Model</h2>
+      <table>
+        <tr><th>Entity</th><th>Represents</th></tr>
+        <tr><td><code>Project</code></td><td>An LLM application under assessment</td></tr>
+        <tr><td><code>StackLayer</code></td><td>A defense-in-depth zone (input, file, model, &hellip;)</td></tr>
+        <tr><td><code>SecurityControl</code></td><td>A mitigation, mapped to a layer + OWASP category</td></tr>
+        <tr><td><code>Risk</code></td><td>An LLM-specific threat with severity &amp; mitigating controls</td></tr>
+        <tr><td><code>Assessment</code></td><td>A control's implementation status over time</td></tr>
+        <tr><td><code>Evidence</code></td><td>Proof a control is in place</td></tr>
+        <tr><td><code>Incident</code></td><td>A detected security event</td></tr>
+        <tr><td><code>ComplianceMapping</code></td><td>OWASP LLM Top-10 coverage status</td></tr>
+        <tr><td><code>Integration</code></td><td>A vendor connector (Check Point, Lakera) + health</td></tr>
+        <tr><td><code>ModelCoverage</code></td><td>A registered hosted/local LLM and its posture</td></tr>
+        <tr><td><code>FileScan</code></td><td>A file scan record + verdict + evidence</td></tr>
+        <tr><td><code>PromptInspection</code></td><td>A Lakera Guard prompt/output verdict</td></tr>
+      </table>
+    </section>
+
+    <section class="avoid">
+      <h2><span class="num">7.</span> Architecture &amp; Technology</h2>
+      <div class="grid2">
+        <div>
+          <p>
+            <strong>Frontend</strong> &mdash; React 18 + TypeScript (Vite),
+            Tailwind CSS + DaisyUI dark SOC theme, React Flow for the interactive
+            map/builder, Zustand state with local-first persistence.
+          </p>
+          <p>
+            <strong>Backend</strong> &mdash; Node.js + Express REST API, Prisma
+            ORM over SQLite. Vendor integration logic runs
+            <strong>server-side</strong>, so API keys never reach the browser.
+          </p>
+        </div>
+        <div>
+          <!-- architecture diagram -->
+          <svg class="diagram" viewBox="0 0 330 196" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, Segoe UI, sans-serif">
+            <defs>
+              <marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8" />
+              </marker>
+            </defs>
+            <rect x="95" y="6" width="140" height="30" rx="6" fill="#0f1626" />
+            <text x="165" y="25" text-anchor="middle" font-size="10" font-weight="700" fill="#fff">React UI (pages)</text>
+
+            <rect x="95" y="52" width="140" height="30" rx="6" fill="#d9f6fb" stroke="#0891b2" />
+            <text x="165" y="65" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0e5566">Zustand store</text>
+            <text x="165" y="76" text-anchor="middle" font-size="8" fill="#0e7490">local-first + score engine</text>
+
+            <rect x="95" y="98" width="140" height="28" rx="6" fill="#e0f7fb" stroke="#0e7490" />
+            <text x="165" y="116" text-anchor="middle" font-size="9.5" font-weight="700" fill="#0e5566">Express REST API</text>
+
+            <rect x="20" y="150" width="130" height="34" rx="6" fill="#dcfce7" stroke="#16a34a" />
+            <text x="85" y="167" text-anchor="middle" font-size="9" font-weight="700" fill="#14532d">Prisma + SQLite</text>
+            <text x="85" y="178" text-anchor="middle" font-size="8" fill="#15803d">persistence</text>
+
+            <rect x="180" y="150" width="135" height="34" rx="6" fill="#fde2ec" stroke="#be1556" />
+            <text x="247" y="164" text-anchor="middle" font-size="8.5" font-weight="700" fill="#7a0d36">Check Point / Lakera</text>
+            <text x="247" y="176" text-anchor="middle" font-size="7.5" fill="#a23a63">HTTPS · keys server-side</text>
+
+            <line x1="165" y1="36" x2="165" y2="50" stroke="#94a3b8" marker-end="url(#ar2)" />
+            <line x1="165" y1="82" x2="165" y2="96" stroke="#94a3b8" marker-end="url(#ar2)" />
+            <path d="M140 126 V138 H85 V148" fill="none" stroke="#94a3b8" marker-end="url(#ar2)" />
+            <path d="M190 126 V138 H247 V148" fill="none" stroke="#94a3b8" marker-end="url(#ar2)" />
+          </svg>
+        </div>
+      </div>
+      <h3>Security &amp; data handling</h3>
+      <ul class="muted">
+        <li><strong>No hardcoded secrets.</strong> Keys are read only from environment variables; until configured, integrations run in <strong>mock mode</strong> with no network calls.</li>
+        <li><strong>HTTPS only</strong>; TLS verification is never disabled.</li>
+        <li>Files are hashed locally (SHA-256); no bytes leave the client in mock mode.</li>
+        <li>Vendor calls are proxied through the backend, keeping credentials server-side.</li>
+      </ul>
+    </section>
+
+    <section class="avoid">
+      <h2><span class="num">8.</span> Status &amp; Next Steps</h2>
+      <p>
+        <strong>Released v1.0.0 (2026-06-23):</strong> full dashboard suite,
+        interactive stack map, risk register, control library, architecture builder,
+        compliance frameworks, report export, Check Point + Lakera + model-coverage
+        integrations, local LLM testing/evaluation, Express + Prisma backend with
+        JWT auth + RBAC, user management, Docker Compose stack, CI with an AI
+        Security Score gate, and Vitest + Playwright test coverage.
+      </p>
+      <h3>Recommended next steps</h3>
+      <ol>
+        <li><strong>Live vendor credentials</strong> in production deployments (mock&rarr;live switchover is wired).</li>
+        <li><strong>Live SIEM forwarding</strong> and automated SOC ticket creation.</li>
+        <li><strong>Production Postgres</strong> deployment with audit history and TLS termination.</li>
+        <li><strong>Raise the AI Security Score</strong> from the demo baseline (~50) toward production targets.</li>
+        <li><strong>Enable Playwright E2E in CI</strong> for full regression on every push.</li>
+      </ol>
+    </section>
+
+    <div class="footer">
+      AI Security Stack Mapper &mdash; Executive Summary · v1.0.0 · 2026-06-23 ·
+      Confidential
+    </div>
+  </body>
+</html>

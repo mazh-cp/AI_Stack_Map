@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  frontend:
+    name: Frontend — type-check, test & build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install
+        run: npm install
+      - name: Type-check
+        run: npx tsc -b
+      - name: Unit tests
+        run: npm test
+      - name: Build
+        run: npx vite build
+
+  backend:
+    name: Backend — tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    env:
+      DATABASE_URL: "file:./dev.db"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install
+        run: npm install
+      - name: Prepare database (migrations + seed)
+        run: |
+          npx prisma generate
+          npx prisma migrate deploy
+          npm run db:seed
+      - name: Unit + integration tests
+        run: npm test
+
+  security-score-gate:
+    name: AI Security Score gate
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    env:
+      DATABASE_URL: "file:./dev.db"
+      # Fail the build if the project's AI Security Score drops below this.
+      # Raise over time as posture improves (demo project currently scores ~50).
+      SCORE_MIN: "45"
+      SCORE_PROJECT: "proj-copilot"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install
+        run: npm install
+      - name: Prepare database (migrations + seed)
+        run: |
+          npx prisma generate
+          npx prisma migrate deploy
+          npm run db:seed
+      - name: Enforce security score gate
+        run: npm run score:gate
+
+  # End-to-end (Playwright) is run on demand rather than on every push to keep
+  # CI fast; enable by uncommenting and it will install browsers + drive the app.
+  #
+  # e2e:
+  #   name: E2E (Playwright)
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-node@v4
+  #       with: { node-version: 20 }
+  #     - run: npm install && npx playwright install --with-deps chromium
+  #     - run: npm run test:e2e
