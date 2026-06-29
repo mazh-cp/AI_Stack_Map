@@ -45,7 +45,7 @@ const html = `<!doctype html>
       <h1>Product Guide</h1>
       <div class="sub">Admin Setup &amp; Usage — complete documentation</div>
     </div>
-    <div class="ver"><span class="tag">v1.0.0</span><br />June 2026</div>
+    <div class="ver"><span class="tag">v1.1.0</span><br />June 2026</div>
   </div>
 
   <div class="wrap">
@@ -74,7 +74,7 @@ const html = `<!doctype html>
 
   <div class="footer">
     <span>Check Point Software Technologies — AI Security Stack Mapper</span>
-    <span>Product Guide · v1.0.0 · Confidential</span>
+    <span>Product Guide · v1.1.0 · Confidential</span>
   </div>
 </body>
 </html>`;

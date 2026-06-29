@@ -1,6 +1,6 @@
 # Configuration & Operating Instructions
 
-Step-by-step: configure, run, and operate the AI Security Stack Mapper. v1.0.0.
+Step-by-step: configure, run, and operate the AI Security Stack Mapper. v1.1.0.
 Run commands from the project root unless a step says otherwise.
 
 ---

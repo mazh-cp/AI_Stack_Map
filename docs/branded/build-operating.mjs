@@ -189,12 +189,12 @@ const html = `<!doctype html>
       <h1>Configuration &amp; Operating Instructions</h1>
       <div class="sub">Step-by-step: configure, run &amp; operate the platform</div>
     </div>
-    <div class="ver"><span class="tag">v1.0.0</span><br />June 2026</div>
+    <div class="ver"><span class="tag">v1.1.0</span><br />June 2026</div>
   </div>
   <div class="wrap">${body}</div>
   <div class="footer">
     <span>Check Point Software Technologies — AI Security Stack Mapper</span>
-    <span>Configuration &amp; Operating Instructions · v1.0.0 · Confidential</span>
+    <span>Configuration &amp; Operating Instructions · v1.1.0 · Confidential</span>
   </div>
 </body>
 </html>`;

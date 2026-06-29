@@ -108,12 +108,12 @@ const html = `<!doctype html>
       <h1>Demo Script &amp; Talk Track</h1>
       <div class="sub">Explain the problem &amp; demo the solution in ~7 minutes</div>
     </div>
-    <div class="ver"><span class="tag">v1.0.0</span><br />June 2026</div>
+    <div class="ver"><span class="tag">v1.1.0</span><br />June 2026</div>
   </div>
   <div class="wrap">${body}</div>
   <div class="footer">
     <span>Check Point Software Technologies — AI Security Stack Mapper</span>
-    <span>Demo Script · v1.0.0 · Confidential</span>
+    <span>Demo Script · v1.1.0 · Confidential</span>
   </div>
 </body>
 </html>`;

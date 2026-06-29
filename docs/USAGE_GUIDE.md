@@ -1,6 +1,6 @@
 # Usage Guide
 
-A step-by-step walkthrough of the AI Security Stack Mapper. Version 1.0.0.
+A step-by-step walkthrough of the AI Security Stack Mapper. Version 1.1.0.
 
 > Roles in brackets indicate who can perform an action. **Viewers** can see
 > everything but editing/run actions are hidden or disabled. In **Local mode**

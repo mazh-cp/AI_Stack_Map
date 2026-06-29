@@ -91,7 +91,7 @@ Demo data lives in [`src/data/seed.ts`](src/data/seed.ts) and seeds the app on f
 - **[Admin Setup Guide](docs/ADMIN_SETUP.md)** — install, configure, deploy, first admin, hardening.
 - **[Usage Guide](docs/USAGE_GUIDE.md)** — step-by-step walkthrough of every screen, by role.
 - **[Executive Summary](EXECUTIVE_SUMMARY.md)** ([PDF](docs/AI-Security-Stack-Mapper-Executive-Summary.pdf)) — problem, solution, flow.
-- **[Changelog](CHANGELOG.md)** — release notes (current: **v1.0.0**).
+- **[Changelog](CHANGELOG.md)** — release notes (current: **v1.1.0**).
 
 ## Run
 

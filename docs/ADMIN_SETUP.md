@@ -1,7 +1,7 @@
 # Admin Setup Guide
 
 AI Security Stack Mapper — installation, configuration, and administration.
-Version 1.0.0.
+Version 1.1.0.
 
 ---
 

@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.1.0 — 2026-06-29
+
+- **In-app Documentation** — new `/docs` page (sidebar "Documentation" section)
+  rendering the Admin Setup and Step-by-Step Usage guides natively, with
+  branded-PDF download links and EN/ES i18n.
+- **Branded documentation set** — Check Point–branded PDFs (Admin Setup, Usage,
+  Operating Instructions, Product Guide, Demo Script) + build scripts + bundle
+  zip; staged in `public/docs` for in-app download.
+- **Demo accounts** moved from `checkpoint.com` to **`imbsys.com`** to avoid
+  conflicts with corporate security policy (product URLs and the Check Point
+  brand name are unchanged).
+- Release verified: type-check, build, unit + integration tests, Playwright
+  e2e, AI Security Score gate, and the full Docker Compose stack on Postgres.
+
 ## 1.0.0 — 2026-06-23
 
 First full release of the **AI Security Stack Mapper** — map, assess, and secure

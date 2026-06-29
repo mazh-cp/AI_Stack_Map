@@ -2,7 +2,7 @@
 
 **Document type:** Project overview & solution brief
 **Audience:** Security leadership, AppSec/SOC teams, platform & ML stakeholders
-**Status:** v1.0.0 — released (mock-first, persistence-enabled)
+**Status:** v1.1.0 — released (mock-first, persistence-enabled)
 **Date:** 2026-06-23
 
 ---
@@ -161,7 +161,7 @@ flowchart TD
 
 ## 8. Current status & next steps
 
-**Released v1.0.0 (2026-06-23):** full dashboard suite, interactive stack map,
+**Released v1.1.0 (2026-06-23):** full dashboard suite, interactive stack map,
 risk register, control library, architecture builder, compliance frameworks
 (OWASP LLM Top 10, NIST AI RMF, EU AI Act, ISO/IEC 42001, MITRE ATLAS), report
 export, Check Point + Lakera + model-coverage integrations, local LLM
