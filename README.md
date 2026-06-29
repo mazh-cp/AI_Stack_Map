@@ -144,10 +144,10 @@ passwords). Four demo accounts are seeded — all use password **`Demo!1234`**:
 
 | Email | Role | Can do |
 | --- | --- | --- |
-| `owner@checkpoint.com` | **Owner** | Everything (incl. integration toggles, admin) |
-| `appsec@checkpoint.com` | **AppSec** | Edit controls, risks, models; run scans/inspections |
-| `soc@checkpoint.com` | **SOC** | Edit risks/incidents; run scans/inspections; read-only elsewhere |
-| `viewer@checkpoint.com` | **Viewer** | Read-only |
+| `owner@imbsys.com` | **Owner** | Everything (incl. integration toggles, admin) |
+| `appsec@imbsys.com` | **AppSec** | Edit controls, risks, models; run scans/inspections |
+| `soc@imbsys.com` | **SOC** | Edit risks/incidents; run scans/inspections; read-only elsewhere |
+| `viewer@imbsys.com` | **Viewer** | Read-only |
 
 Permissions are enforced **server-side** (`requirePerm` middleware → 401/403) and
 mirrored in the UI (actions hidden/disabled by role). In **Local mode** (backend

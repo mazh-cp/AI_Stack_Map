@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Admin Setup Guide — AI Security Stack Mapper</title>
+    <style>
+      @page { size: A4; margin: 14mm 14mm 16mm; }
+      * { box-sizing: border-box; }
+      html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      body { font-family: Arial, Helvetica, sans-serif; color: #41273c; font-size: 11px; line-height: 1.55; margin: 0; }
+      h1, h2, h3 { margin: 0; }
+      p { margin: 0 0 8px; }
+      a { color: #b70d4e; text-decoration: none; }
+      code { font-family: Consolas, monospace; font-size: 10px; background: #f2f2f2; padding: 1px 5px; color: #41273c; }
+      pre { background: #f2f2f2; border-left: 3px solid #ee0c5d; padding: 10px 12px; font-family: Consolas, monospace; font-size: 10px; margin: 8px 0; white-space: pre-wrap; color: #41273c; }
+      ul, ol { margin: 4px 0 9px; padding-left: 18px; }
+      li { margin-bottom: 3px; }
+
+      .cover { background: #41273c; color: #fff; padding: 22px 26px; border-bottom: 6px solid #ee0c5d; display: flex; justify-content: space-between; align-items: flex-end; }
+      .cover svg { height: 24px; display: block; }
+      .cover .eyebrow { color: #ee0c5d; font-size: 10px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-top: 16px; }
+      .cover h1 { color: #fff; font-size: 23px; margin: 7px 0 3px; }
+      .cover .sub { color: #d9c7d1; font-size: 11px; }
+      .cover .ver { text-align: right; color: #fff; font-size: 10px; line-height: 1.7; }
+      .cover .ver .tag { display: inline-block; background: #ee0c5d; color: #fff; font-weight: bold; padding: 2px 8px; letter-spacing: 1px; }
+
+      .wrap { padding: 16px 26px 0; }
+      h2 { font-size: 15px; color: #41273c; border-bottom: 2px solid #ee0c5d; padding-bottom: 5px; margin: 20px 0 10px; }
+      h2 .n { color: #ee0c5d; }
+      h3 { font-size: 12px; color: #b70d4e; margin: 13px 0 4px; }
+
+      table { width: 100%; border-collapse: collapse; font-size: 10px; margin: 6px 0 10px; }
+      th, td { text-align: left; padding: 5px 8px; border: 1px solid #ddd6da; vertical-align: top; }
+      th { background: #41273c; color: #fff; text-transform: uppercase; font-size: 8.5px; letter-spacing: 0.4px; }
+      tr:nth-child(even) td { background: #f7f5f6; }
+
+      .callout { background: #f2f2f2; border-left: 4px solid #ee0c5d; padding: 8px 12px; margin: 9px 0; }
+      .avoid { page-break-inside: avoid; }
+      .page-break { page-break-before: always; }
+      .check { color: #ee0c5d; font-weight: bold; }
+      .footer { margin: 20px 26px 0; border-top: 1px solid #ddd6da; padding: 8px 0; color: #8a7c85; font-size: 9px; display: flex; justify-content: space-between; }
+    </style>
+  </head>
+  <body>
+    <div class="cover">
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 205 44"><path fill="#fff" d="M46.7,29.9h0c0-4.3,3.2-7.8,7.7-7.8s4.4.9,5.8,2.3l-2.1,2.4c-1.1-1-2.3-1.7-3.8-1.7-2.5,0-4.3,2.1-4.3,4.6h0c0,2.6,1.7,4.7,4.3,4.7s2.7-.7,3.9-1.7l2.1,2.1c-1.5,1.6-3.2,2.7-6,2.7-4.3,0-7.5-3.4-7.5-7.7Z"/><path fill="#fff" d="M62.9,22.4h3.2v5.9h6v-5.9h3.2v14.9h-3.2v-6h-6v6h-3.2v-14.9Z"/><path fill="#fff" d="M79.2,22.4h11.1v2.9h-7.9v3h6.9v2.9h-6.9v3.1h8v2.9h-11.2v-14.9Z"/><path fill="#fff" d="M92.7,29.9h0c0-4.3,3.2-7.8,7.7-7.8s4.4.9,5.8,2.3l-2.1,2.4c-1.1-1-2.3-1.7-3.8-1.7-2.5,0-4.3,2.1-4.3,4.6h0c0,2.6,1.7,4.7,4.3,4.7s2.7-.7,3.9-1.7l2.1,2.1c-1.5,1.6-3.2,2.7-6,2.7-4.3,0-7.5-3.4-7.5-7.7Z"/><path fill="#fff" d="M108.8,22.4h3.2v6.5l6-6.5h3.9l-6,6.3,6.3,8.6h-3.9l-4.6-6.4-1.7,1.8v4.6h-3.2v-14.9h0Z"/><path fill="#fff" d="M130.8,22.4h6c3.5,0,5.6,2.1,5.6,5.2h0c0,3.5-2.6,5.3-6,5.3h-2.5v4.5h-3.2v-14.9h0ZM136.6,29.9c1.6,0,2.6-1,2.6-2.3h0c0-1.5-1-2.3-2.6-2.3h-2.5v4.6h2.6,0Z"/><path fill="#fff" d="M144.5,29.9h0c0-4.3,3.3-7.8,7.8-7.8s7.8,3.4,7.8,7.7h0c0,4.3-3.3,7.8-7.8,7.8s-7.8-3.4-7.8-7.7ZM156.8,29.9h0c0-2.6-1.8-4.7-4.5-4.7s-4.4,2.1-4.4,4.6h0c0,2.6,1.8,4.7,4.5,4.7s4.4-2.1,4.4-4.6Z"/><path fill="#fff" d="M163.3,22.4h3.2v14.9h-3.2v-14.9Z"/><path fill="#fff" d="M170.6,22.4h3l6.9,9.2v-9.2h3.2v14.9h-2.8l-7.1-9.5v9.5h-3.2v-14.9Z"/><path fill="#fff" d="M191,25.4h-4.5v-3h12.2v3h-4.5v11.9h-3.2v-11.9h0Z"/><path fill="#fff" d="M201.8,24.4h-.4v-1.7h-.6v-.3h1.6v.3h-.6v1.7h0Z"/><path fill="#fff" d="M204,23.9h0l-.6-1v1.5h-.4v-2.1h.4l.6,1,.6-1h.4v2.1h-.3v-1.5l-.6,1h0Z"/><path fill="#fff" d="M44.2,11.2c-2.3,2.9-6.5,3.4-9.4,1-2.9-2.3-3.3-6.6-1-9.5,2.3-2.9,6.5-3.4,9.4-1,2.9,2.3,3.3,6.6,1,9.5Z"/><path fill="#ee0c5d" d="M35.2,21.7c-1.8.9-4.1.8-6-.2l-5.2,7.1c.7.8,1,1.7,1.1,2.7,0,.9-.2,1.8-.7,2.6-1.3,2.1-4,2.7-6.1,1.3-.2-.1-.4-.3-.6-.5,0,0-.1-.1-.2-.2-.1-.1-.2-.3-.3-.4,0,0,0-.1-.1-.2-.1-.2-.2-.4-.3-.6,0,0,0-.1,0-.2,0-.2-.1-.3-.2-.5,0,0,0-.1,0-.2,0-.2,0-.4-.1-.7v-.2c0-.2,0-.4,0-.6h0c0-.4,0-.6.1-.8,0,0,0-.1,0-.2,0-.2.2-.5.3-.7l-4.2-3.2-1.3,1.8-4.8-3.7,3.6-4.9,4.8,3.7-1.3,1.8,4.3,3.3c1.3-1.1,3.2-1.4,4.8-.5l5.2-7c-2.1-2.1-2.6-5.4-1.1-8.1.3-.5.7-1,1.1-1.4-2.8-2-6.3-3.1-10-3.1C8,7.8,0,15.9,0,25.9c0,10,7.9,18.1,17.8,18.1,9.8,0,17.8-8,17.9-18,0-1.5-.2-2.9-.5-4.2Z"/></svg>
+        <div class="eyebrow">AI Security Stack Mapper</div>
+        <h1>Admin Setup Guide</h1>
+        <div class="sub">Installation, configuration &amp; administration</div>
+      </div>
+      <div class="ver"><span class="tag">v1.0.0</span><br />June 2026</div>
+    </div>
+
+    <div class="wrap">
+      <section class="avoid">
+        <h2><span class="n">1.</span> Prerequisites</h2>
+        <ul>
+          <li><strong>Node.js 20+</strong> and npm</li>
+          <li><strong>Docker + Docker Compose</strong> — for the one-command full-stack / Postgres path</li>
+          <li><em>(Optional)</em> <strong>Ollama</strong> or any OpenAI-compatible local LLM runtime, for live model evaluation</li>
+        </ul>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">2.</span> Choose How To Run It</h2>
+        <h3>Option A — Docker Compose (recommended)</h3>
+        <p>One command brings up <strong>Postgres + API + nginx-served frontend</strong>:</p>
+        <pre>docker compose up --build      # → http://localhost:8080</pre>
+        <p>The API auto-applies the schema and seeds demo data. Tear down with <code>docker compose down</code> (add <code>-v</code> to drop the database volume).</p>
+        <h3>Option B — Full Stack, Local Dev (SQLite)</h3>
+        <pre># 1) Backend
+cd server
+npm install
+cp .env.example .env
+npm run setup        # prisma generate + migrate deploy + seed
+npm start            # API on http://localhost:4000
+
+# 2) Frontend (separate terminal)
+cd ..
+npm install
+npm run dev          # http://localhost:5173 (proxies /api → :4000)</pre>
+        <h3>Option C — Frontend Only (offline demo)</h3>
+        <pre>npm install &amp;&amp; npm run dev     # http://localhost:5173</pre>
+        <p>Runs entirely on seed data + in-browser mocks — the header shows <strong>Local mode</strong> and no login is required.</p>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">3.</span> Environment Variables (<code>server/.env</code>)</h2>
+        <table>
+          <tr><th>Variable</th><th>Purpose</th><th>Default</th></tr>
+          <tr><td><code>DATABASE_URL</code></td><td>Prisma connection string</td><td><code>file:./dev.db</code></td></tr>
+          <tr><td><code>PORT</code></td><td>API port</td><td>4000</td></tr>
+          <tr><td><code>CORS_ORIGIN</code></td><td>Allowed browser origin(s)</td><td>http://localhost:5173</td></tr>
+          <tr><td><code>JWT_SECRET</code></td><td>Session signing secret — <strong>set in production</strong></td><td>ephemeral</td></tr>
+          <tr><td><code>NODE_ENV</code></td><td><code>production</code> blocks demo seeding (§5)</td><td>unset</td></tr>
+          <tr><td><code>ALLOW_SEED</code></td><td><code>true</code> to allow seeding in production</td><td>unset</td></tr>
+          <tr><td><code>CHECKPOINT_TE_API_KEY</code> / <code>_BASE_URL</code></td><td>Check Point Threat Emulation</td><td>mock</td></tr>
+          <tr><td><code>CHECKPOINT_FILE_SCAN_API_KEY</code> / <code>_BASE_URL</code></td><td>Check Point TE File Scan</td><td>mock</td></tr>
+          <tr><td><code>LAKERA_GUARD_API_KEY</code> / <code>_BASE_URL</code></td><td>Lakera Guard</td><td>mock</td></tr>
+        </table>
+        <div class="callout">Secrets are read at runtime and never hardcoded. In production, supply them via your platform's secret store and terminate TLS in front of the API so the <code>Secure</code> session cookies apply.</div>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">4.</span> Database &amp; Migrations</h2>
+        <ul>
+          <li>Schema: <code>server/prisma/schema.prisma</code>; committed migrations under <code>server/prisma/migrations/</code>.</li>
+          <li>Apply: <code>npm run db:migrate</code> (<code>prisma migrate deploy</code>). Seed: <code>npm run db:seed</code>. <code>npm run setup</code> does generate + migrate + seed.</li>
+          <li><strong>Postgres:</strong> point <code>DATABASE_URL</code> at Postgres (Docker path does this); the schema is provider-portable.</li>
+        </ul>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">5.</span> First Admin &amp; Demo Accounts</h2>
+        <p><strong>Demo accounts</strong> (dev/seed only) — all use password <code>Demo!1234</code>:</p>
+        <table>
+          <tr><th>Email</th><th>Role</th></tr>
+          <tr><td>owner@imbsys.com</td><td>Owner</td></tr>
+          <tr><td>appsec@imbsys.com</td><td>AppSec</td></tr>
+          <tr><td>soc@imbsys.com</td><td>SOC</td></tr>
+          <tr><td>viewer@imbsys.com</td><td>Viewer</td></tr>
+        </table>
+        <p><strong>Production:</strong> seeding is blocked when <code>NODE_ENV=production</code> (unless <code>ALLOW_SEED=true</code>). Create your first <strong>Owner</strong> with the bootstrap CLI:</p>
+        <pre>cd server
+npm run create:admin -- --email you@org.com --name "You" --password 'StrongPass!23'</pre>
+        <p>The same command resets an existing user to Owner with a new password. Manage everyone else from <strong>Settings → User Management</strong>.</p>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">6.</span> Roles &amp; Permissions</h2>
+        <table>
+          <tr><th>Role</th><th>Can do</th></tr>
+          <tr><td><strong>Owner</strong></td><td>Everything, incl. integration toggles &amp; user management</td></tr>
+          <tr><td><strong>AppSec</strong></td><td>Edit controls, risks, models; run file scans &amp; prompt inspections</td></tr>
+          <tr><td><strong>SOC</strong></td><td>Edit risks/incidents; run scans &amp; inspections; read-only elsewhere</td></tr>
+          <tr><td><strong>Viewer</strong></td><td>Read-only</td></tr>
+        </table>
+        <p>Enforced server-side (<code>requirePerm</code> → 401/403) and mirrored in the UI.</p>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">7.</span> Vendor Integrations (Mock → Live)</h2>
+        <p>Integrations run in <strong>mock mode</strong> until keys are configured (§3). Once a key + base URL are set, the integration flips to <strong>live</strong> automatically and calls run server-side (keys never reach the browser). Status is shown on the <strong>Integrations</strong> page.</p>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">8.</span> Local LLM Evaluation (Optional)</h2>
+        <pre>ollama pull llama3.2:1b        # any small model</pre>
+        <p>In the app: <strong>Model Coverage → Register model</strong> with deployment <strong>local</strong>, endpoint <code>http://localhost:11434/api/generate</code>, model name <code>llama3.2:1b</code>, then click <strong>Evaluate</strong>. OpenAI-compatible runtimes (vLLM, LM Studio, LocalAI, TGI) work via their <code>/v1/chat/completions</code> or <code>/v1/completions</code> endpoint. Unreachable endpoints fall back to a simulated evaluation.</p>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">9.</span> CI &amp; The Security-Score Gate</h2>
+        <p>CI runs type-check, build, unit + integration tests, and an <strong>AI Security Score gate</strong> that fails the build below a threshold:</p>
+        <pre>cd server
+SCORE_MIN=60 SCORE_PROJECT=proj-copilot npm run score:gate</pre>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">10.</span> Production Hardening Checklist</h2>
+        <ul>
+          <li><span class="check">▪</span> Set a strong <code>JWT_SECRET</code> and <code>NODE_ENV=production</code>.</li>
+          <li><span class="check">▪</span> Terminate <strong>TLS</strong> in front of the API (enables <code>Secure</code> cookies).</li>
+          <li><span class="check">▪</span> Use managed <strong>Postgres</strong> with committed migrations + backups.</li>
+          <li><span class="check">▪</span> Replace demo accounts; create the real Owner via <code>create:admin</code>.</li>
+          <li><span class="check">▪</span> Supply vendor keys from a secret store; confirm integrations show <strong>live</strong>.</li>
+          <li><span class="check">▪</span> Lock <code>CORS_ORIGIN</code> to your real frontend origin.</li>
+          <li><span class="check">▪</span> Run <code>npm test</code> (frontend + server) and the score gate in CI.</li>
+        </ul>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">11.</span> Troubleshooting</h2>
+        <table>
+          <tr><th>Symptom</th><th>Fix</th></tr>
+          <tr><td>Login won't accept demo creds</td><td>DB not seeded — run <code>npm run db:seed</code></td></tr>
+          <tr><td>Logged out after API restart</td><td><code>JWT_SECRET</code> not set (ephemeral secret rotated)</td></tr>
+          <tr><td>Header shows <strong>Local mode</strong></td><td>Backend unreachable — start the API / check <code>CORS_ORIGIN</code></td></tr>
+          <tr><td>Integration shows <strong>mock</strong></td><td>No API key configured for that vendor (expected)</td></tr>
+          <tr><td>Evaluation says <strong>simulated</strong></td><td>Model endpoint unreachable from the server</td></tr>
+          <tr><td>Docker API container exits</td><td>Check <code>docker compose logs api</code> (DB must be healthy first)</td></tr>
+        </table>
+      </section>
+    </div>
+
+    <div class="footer">
+      <span>Check Point Software Technologies — AI Security Stack Mapper</span>
+      <span>Admin Setup Guide · v1.0.0 · Confidential</span>
+    </div>
+  </body>
+</html>

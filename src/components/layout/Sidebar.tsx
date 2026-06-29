@@ -14,6 +14,7 @@ import {
   Plug,
   BadgeCheck,
   Settings as SettingsIcon,
+  BookOpen,
 } from "lucide-react";
 import { useI18n } from "../../i18n";
 
@@ -40,6 +41,10 @@ const NAV_REPORTS = [
 
 const NAV_ACCOUNT = [
   { to: "/settings", labelKey: "nav.settings", icon: SettingsIcon },
+];
+
+const NAV_DOCS = [
+  { to: "/docs", labelKey: "nav.docs", icon: BookOpen },
 ];
 
 export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
@@ -84,6 +89,13 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
           {t("nav.section.account")}
         </p>
         {NAV_ACCOUNT.map((item) => (
+          <NavItem key={item.to} {...item} onNavigate={onNavigate} />
+        ))}
+
+        <p className="px-3 pb-1 pt-4 text-[10px] font-semibold uppercase tracking-wider text-gray-600">
+          {t("nav.section.docs")}
+        </p>
+        {NAV_DOCS.map((item) => (
           <NavItem key={item.to} {...item} onNavigate={onNavigate} />
         ))}
       </nav>

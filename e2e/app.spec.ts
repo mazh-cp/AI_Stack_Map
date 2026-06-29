@@ -9,7 +9,7 @@ test("login (if required) then navigate the dashboard", async ({ page }) => {
 
   // Wait for startup to settle into either the login form or the dashboard
   // (init() shows a brief "Loading…" while it probes the backend).
-  const email = page.getByPlaceholder("you@checkpoint.com");
+  const email = page.getByPlaceholder("you@imbsys.com");
   const dashHeading = page.getByRole("heading", { name: "Security Dashboard" });
   await Promise.race([
     email.waitFor({ state: "visible", timeout: 15_000 }).catch(() => {}),

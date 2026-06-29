@@ -321,7 +321,7 @@ function AddUserModal({
           <input value={name} onChange={(e) => setName(e.target.value)} className="input-soc" autoFocus />
         </Field>
         <Field label="Email">
-          <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" className="input-soc" placeholder="user@checkpoint.com" />
+          <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" className="input-soc" placeholder="user@imbsys.com" />
         </Field>
         <Field label="Role">
           <select value={role} onChange={(e) => setRole(e.target.value as Role)} className="input-soc">

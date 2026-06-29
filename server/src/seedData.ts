@@ -6,10 +6,10 @@
 // All share the same demo password for convenience; change before any real use.
 export const DEMO_PASSWORD = "Demo!1234";
 export const users = [
-  { id: "usr-owner", email: "owner@checkpoint.com", name: "Olivia Owner", role: "owner" },
-  { id: "usr-appsec", email: "appsec@checkpoint.com", name: "Aaron AppSec", role: "appsec" },
-  { id: "usr-soc", email: "soc@checkpoint.com", name: "Sam SOC", role: "soc" },
-  { id: "usr-viewer", email: "viewer@checkpoint.com", name: "Vera Viewer", role: "viewer" },
+  { id: "usr-owner", email: "owner@imbsys.com", name: "Olivia Owner", role: "owner" },
+  { id: "usr-appsec", email: "appsec@imbsys.com", name: "Aaron AppSec", role: "appsec" },
+  { id: "usr-soc", email: "soc@imbsys.com", name: "Sam SOC", role: "soc" },
+  { id: "usr-viewer", email: "viewer@imbsys.com", name: "Vera Viewer", role: "viewer" },
 ];
 
 export const projects = [

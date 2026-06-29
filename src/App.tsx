@@ -22,6 +22,7 @@ const Integrations = lazy(() => import("./pages/Integrations").then((m) => ({ de
 const Compliance = lazy(() => import("./pages/Compliance").then((m) => ({ default: m.Compliance })));
 const ReportGenerator = lazy(() => import("./pages/ReportGenerator").then((m) => ({ default: m.ReportGenerator })));
 const Settings = lazy(() => import("./pages/Settings").then((m) => ({ default: m.Settings })));
+const Documentation = lazy(() => import("./pages/Documentation").then((m) => ({ default: m.Documentation })));
 
 function PageFallback() {
   return (
@@ -84,6 +85,7 @@ export default function App() {
             <Route path="/compliance" element={<Compliance />} />
             <Route path="/report" element={<ReportGenerator />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/docs" element={<Documentation />} />
           </Routes>
         </Suspense>
         <Toaster />

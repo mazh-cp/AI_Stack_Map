@@ -3,16 +3,16 @@ import { ShieldCheck, LogIn, AlertCircle } from "lucide-react";
 import { useStore } from "../store/useStore";
 
 const DEMO_ACCOUNTS = [
-  { role: "Owner", email: "owner@checkpoint.com", note: "full access" },
-  { role: "AppSec", email: "appsec@checkpoint.com", note: "controls, risks, models, scans" },
-  { role: "SOC", email: "soc@checkpoint.com", note: "risks, scans, inspections" },
-  { role: "Viewer", email: "viewer@checkpoint.com", note: "read-only" },
+  { role: "Owner", email: "owner@imbsys.com", note: "full access" },
+  { role: "AppSec", email: "appsec@imbsys.com", note: "controls, risks, models, scans" },
+  { role: "SOC", email: "soc@imbsys.com", note: "risks, scans, inspections" },
+  { role: "Viewer", email: "viewer@imbsys.com", note: "read-only" },
 ];
 const DEMO_PASSWORD = "Demo!1234";
 
 export function Login() {
   const login = useStore((s) => s.login);
-  const [email, setEmail] = useState("owner@checkpoint.com");
+  const [email, setEmail] = useState("owner@imbsys.com");
   const [password, setPassword] = useState(DEMO_PASSWORD);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -48,7 +48,7 @@ export function Login() {
               onChange={(e) => setEmail(e.target.value)}
               autoFocus
               className="input-soc"
-              placeholder="you@checkpoint.com"
+              placeholder="you@imbsys.com"
             />
           </div>
           <div>

@@ -21,7 +21,7 @@ describe("public + auth", () => {
   it("rejects bad credentials", async () => {
     const res = await request(app)
       .post("/api/auth/login")
-      .send({ email: "owner@checkpoint.com", password: "wrong" });
+      .send({ email: "owner@imbsys.com", password: "wrong" });
     expect(res.status).toBe(401);
   });
 
@@ -29,7 +29,7 @@ describe("public + auth", () => {
     const agent = request.agent(app);
     const login = await agent
       .post("/api/auth/login")
-      .send({ email: "owner@checkpoint.com", password: "Demo!1234" });
+      .send({ email: "owner@imbsys.com", password: "Demo!1234" });
     expect(login.status).toBe(200);
     expect(login.body.user.role).toBe("owner");
     expect(login.body.token).toBeUndefined(); // no token in body
@@ -48,7 +48,7 @@ describe("RBAC + validation", () => {
     const agent = request.agent(app);
     await agent
       .post("/api/auth/login")
-      .send({ email: "viewer@checkpoint.com", password: "Demo!1234" });
+      .send({ email: "viewer@imbsys.com", password: "Demo!1234" });
     const res = await agent
       .patch("/api/controls/ctl-siem")
       .send({ status: "planned" });
@@ -59,7 +59,7 @@ describe("RBAC + validation", () => {
     const agent = request.agent(app);
     await agent
       .post("/api/auth/login")
-      .send({ email: "owner@checkpoint.com", password: "Demo!1234" });
+      .send({ email: "owner@imbsys.com", password: "Demo!1234" });
     const res = await agent.post("/api/controls").send({ name: "" });
     expect(res.status).toBe(400);
     expect(res.body.error).toMatch(/invalid/i);

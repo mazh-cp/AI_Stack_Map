@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Configuration &amp; Operating Instructions — AI Security Stack Mapper</title>
+<style>
+      @page { size: A4; margin: 14mm 14mm 16mm; }
+      * { box-sizing: border-box; }
+      html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      body { font-family: Arial, Helvetica, sans-serif; color: #41273c; font-size: 11px; line-height: 1.55; margin: 0; }
+      h1, h2, h3 { margin: 0; }
+      p { margin: 0 0 8px; }
+      a { color: #b70d4e; text-decoration: none; }
+      code { font-family: Consolas, monospace; font-size: 10px; background: #f2f2f2; padding: 1px 5px; color: #41273c; }
+      pre { background: #f2f2f2; border-left: 3px solid #ee0c5d; padding: 10px 12px; font-family: Consolas, monospace; font-size: 10px; margin: 8px 0; white-space: pre-wrap; color: #41273c; }
+      ul, ol { margin: 4px 0 9px; padding-left: 18px; }
+      li { margin-bottom: 3px; }
+
+      .cover { background: #41273c; color: #fff; padding: 22px 26px; border-bottom: 6px solid #ee0c5d; display: flex; justify-content: space-between; align-items: flex-end; }
+      .cover svg { height: 24px; display: block; }
+      .cover .eyebrow { color: #ee0c5d; font-size: 10px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-top: 16px; }
+      .cover h1 { color: #fff; font-size: 23px; margin: 7px 0 3px; }
+      .cover .sub { color: #d9c7d1; font-size: 11px; }
+      .cover .ver { text-align: right; color: #fff; font-size: 10px; line-height: 1.7; }
+      .cover .ver .tag { display: inline-block; background: #ee0c5d; color: #fff; font-weight: bold; padding: 2px 8px; letter-spacing: 1px; }
+
+      .wrap { padding: 16px 26px 0; }
+      h2 { font-size: 15px; color: #41273c; border-bottom: 2px solid #ee0c5d; padding-bottom: 5px; margin: 20px 0 10px; }
+      h2 .n { color: #ee0c5d; }
+      h3 { font-size: 12px; color: #b70d4e; margin: 13px 0 4px; }
+
+      table { width: 100%; border-collapse: collapse; font-size: 10px; margin: 6px 0 10px; }
+      th, td { text-align: left; padding: 5px 8px; border: 1px solid #ddd6da; vertical-align: top; }
+      th { background: #41273c; color: #fff; text-transform: uppercase; font-size: 8.5px; letter-spacing: 0.4px; }
+      tr:nth-child(even) td { background: #f7f5f6; }
+
+      .callout { background: #f2f2f2; border-left: 4px solid #ee0c5d; padding: 8px 12px; margin: 9px 0; }
+      .avoid { page-break-inside: avoid; }
+      .page-break { page-break-before: always; }
+      .check { color: #ee0c5d; font-weight: bold; }
+      .footer { margin: 20px 26px 0; border-top: 1px solid #ddd6da; padding: 8px 0; color: #8a7c85; font-size: 9px; display: flex; justify-content: space-between; }
+    
+  .part { background:#ee0c5d; color:#fff; padding:9px 16px; font-size:16px; font-weight:bold; margin:18px 0 14px; }
+  .step { background:#f2f2f2; border-left:4px solid #ee0c5d; padding:2px 12px 2px; margin:9px 0; }
+  .step h3 { color:#41273c; margin:8px 0 4px; }
+  .exp { color:#b70d4e; font-size:10px; margin:4px 0 8px; }
+  .exp b { color:#b70d4e; }
+</style>
+</head>
+<body>
+  <div class="cover">
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 205 44"><path fill="#fff" d="M46.7,29.9h0c0-4.3,3.2-7.8,7.7-7.8s4.4.9,5.8,2.3l-2.1,2.4c-1.1-1-2.3-1.7-3.8-1.7-2.5,0-4.3,2.1-4.3,4.6h0c0,2.6,1.7,4.7,4.3,4.7s2.7-.7,3.9-1.7l2.1,2.1c-1.5,1.6-3.2,2.7-6,2.7-4.3,0-7.5-3.4-7.5-7.7Z"/><path fill="#fff" d="M62.9,22.4h3.2v5.9h6v-5.9h3.2v14.9h-3.2v-6h-6v6h-3.2v-14.9Z"/><path fill="#fff" d="M79.2,22.4h11.1v2.9h-7.9v3h6.9v2.9h-6.9v3.1h8v2.9h-11.2v-14.9Z"/><path fill="#fff" d="M92.7,29.9h0c0-4.3,3.2-7.8,7.7-7.8s4.4.9,5.8,2.3l-2.1,2.4c-1.1-1-2.3-1.7-3.8-1.7-2.5,0-4.3,2.1-4.3,4.6h0c0,2.6,1.7,4.7,4.3,4.7s2.7-.7,3.9-1.7l2.1,2.1c-1.5,1.6-3.2,2.7-6,2.7-4.3,0-7.5-3.4-7.5-7.7Z"/><path fill="#fff" d="M108.8,22.4h3.2v6.5l6-6.5h3.9l-6,6.3,6.3,8.6h-3.9l-4.6-6.4-1.7,1.8v4.6h-3.2v-14.9h0Z"/><path fill="#fff" d="M130.8,22.4h6c3.5,0,5.6,2.1,5.6,5.2h0c0,3.5-2.6,5.3-6,5.3h-2.5v4.5h-3.2v-14.9h0ZM136.6,29.9c1.6,0,2.6-1,2.6-2.3h0c0-1.5-1-2.3-2.6-2.3h-2.5v4.6h2.6,0Z"/><path fill="#fff" d="M144.5,29.9h0c0-4.3,3.3-7.8,7.8-7.8s7.8,3.4,7.8,7.7h0c0,4.3-3.3,7.8-7.8,7.8s-7.8-3.4-7.8-7.7ZM156.8,29.9h0c0-2.6-1.8-4.7-4.5-4.7s-4.4,2.1-4.4,4.6h0c0,2.6,1.8,4.7,4.5,4.7s4.4-2.1,4.4-4.6Z"/><path fill="#fff" d="M163.3,22.4h3.2v14.9h-3.2v-14.9Z"/><path fill="#fff" d="M170.6,22.4h3l6.9,9.2v-9.2h3.2v14.9h-2.8l-7.1-9.5v9.5h-3.2v-14.9Z"/><path fill="#fff" d="M191,25.4h-4.5v-3h12.2v3h-4.5v11.9h-3.2v-11.9h0Z"/><path fill="#fff" d="M201.8,24.4h-.4v-1.7h-.6v-.3h1.6v.3h-.6v1.7h0Z"/><path fill="#fff" d="M204,23.9h0l-.6-1v1.5h-.4v-2.1h.4l.6,1,.6-1h.4v2.1h-.3v-1.5l-.6,1h0Z"/><path fill="#fff" d="M44.2,11.2c-2.3,2.9-6.5,3.4-9.4,1-2.9-2.3-3.3-6.6-1-9.5,2.3-2.9,6.5-3.4,9.4-1,2.9,2.3,3.3,6.6,1,9.5Z"/><path fill="#ee0c5d" d="M35.2,21.7c-1.8.9-4.1.8-6-.2l-5.2,7.1c.7.8,1,1.7,1.1,2.7,0,.9-.2,1.8-.7,2.6-1.3,2.1-4,2.7-6.1,1.3-.2-.1-.4-.3-.6-.5,0,0-.1-.1-.2-.2-.1-.1-.2-.3-.3-.4,0,0,0-.1-.1-.2-.1-.2-.2-.4-.3-.6,0,0,0-.1,0-.2,0-.2-.1-.3-.2-.5,0,0,0-.1,0-.2,0-.2,0-.4-.1-.7v-.2c0-.2,0-.4,0-.6h0c0-.4,0-.6.1-.8,0,0,0-.1,0-.2,0-.2.2-.5.3-.7l-4.2-3.2-1.3,1.8-4.8-3.7,3.6-4.9,4.8,3.7-1.3,1.8,4.3,3.3c1.3-1.1,3.2-1.4,4.8-.5l5.2-7c-2.1-2.1-2.6-5.4-1.1-8.1.3-.5.7-1,1.1-1.4-2.8-2-6.3-3.1-10-3.1C8,7.8,0,15.9,0,25.9c0,10,7.9,18.1,17.8,18.1,9.8,0,17.8-8,17.9-18,0-1.5-.2-2.9-.5-4.2Z"/></svg>
+      <div class="eyebrow">AI Security Stack Mapper</div>
+      <h1>Configuration &amp; Operating Instructions</h1>
+      <div class="sub">Step-by-step: configure, run &amp; operate the platform</div>
+    </div>
+    <div class="ver"><span class="tag">v1.0.0</span><br />June 2026</div>
+  </div>
+  <div class="wrap">
+  <div class="callout">
+    Follow the parts in order: <strong>A. Configure</strong> the platform once, then
+    <strong>B. Operate</strong> it day to day, and use <strong>C. Maintenance</strong>
+    for upkeep. Commands run from the project root unless a step says otherwise.
+  </div>
+
+  <div class="part">Part A &middot; Configuration (one-time setup)</div>
+
+  <div class="step"><h3>A1. Check prerequisites</h3>
+    <ul>
+      <li><strong>Node.js 20+</strong> and npm; <strong>Docker + Docker Compose</strong> for the container path.</li>
+      <li><em>(Optional)</em> <strong>Ollama</strong> or an OpenAI-compatible runtime for live model evaluation.</li>
+    </ul>
+    <p class="exp"><b>Verify:</b> <code>node -v</code> prints v20+; <code>docker --version</code> succeeds.</p>
+  </div>
+
+  <div class="step"><h3>A2. Choose a deployment mode</h3>
+    <table>
+      <tr><th>Mode</th><th>Use when</th><th>URL</th></tr>
+      <tr><td>Docker Compose</td><td>Realistic demo / shared env (Postgres)</td><td>http://localhost:8080</td></tr>
+      <tr><td>Full stack (dev)</td><td>Local development (SQLite)</td><td>http://localhost:5173</td></tr>
+      <tr><td>Frontend only</td><td>Quick offline preview (no login)</td><td>http://localhost:5173</td></tr>
+    </table>
+  </div>
+
+  <div class="step"><h3>A3. Configure the backend environment</h3>
+    <pre>cd server
+cp .env.example .env</pre>
+    <p>Edit <code>server/.env</code> — minimum for a real deployment:</p>
+    <pre>DATABASE_URL="postgresql://user:pass@host:5432/stackmapper"   # or file:./dev.db
+PORT=4000
+CORS_ORIGIN="https://your-frontend-origin"
+JWT_SECRET="&lt;a long random string&gt;"
+NODE_ENV=production
+# Vendor keys (leave blank to stay in mock mode):
+CHECKPOINT_TE_API_KEY=
+LAKERA_GUARD_API_KEY=</pre>
+    <p class="exp"><b>Note:</b> with <code>NODE_ENV=production</code>, demo accounts are NOT seeded — you create the admin in A5.</p>
+  </div>
+
+  <div class="step"><h3>A4. Initialize the database</h3>
+    <pre>npm install
+npm run setup        # prisma generate + migrate deploy + seed (dev)
+# production (no demo data): npx prisma generate &amp;&amp; npx prisma migrate deploy</pre>
+    <p class="exp"><b>Verify:</b> migrations apply with no error; (dev) seed prints "Seeded: …".</p>
+  </div>
+
+  <div class="step"><h3>A5. Create the first administrator</h3>
+    <pre>npm run create:admin -- --email you@org.com --name "You" --password 'StrongPass!23'</pre>
+    <p class="exp"><b>Expected:</b> "Created owner you@org.com." In dev you may instead use the demo Owner <code>owner@imbsys.com</code> / <code>Demo!1234</code>.</p>
+  </div>
+
+  <div class="step"><h3>A6. Start the services</h3>
+    <p><strong>Docker (recommended):</strong></p>
+    <pre>docker compose up --build      # → http://localhost:8080</pre>
+    <p><strong>Or full stack (dev):</strong></p>
+    <pre>cd server &amp;&amp; npm start         # API on :4000
+# new terminal:
+npm install &amp;&amp; npm run dev      # UI on :5173</pre>
+  </div>
+
+  <div class="step"><h3>A7. Verify the platform is up</h3>
+    <pre>curl http://localhost:4000/api/health      # {"ok":true,...}</pre>
+    <p class="exp"><b>Expected:</b> opening the app shows the login screen and the header reads <strong>Backend online</strong>.</p>
+  </div>
+
+  <div class="step"><h3>A8. (Optional) Connect vendor integrations &amp; local LLM</h3>
+    <ol>
+      <li>Set <code>CHECKPOINT_*</code> / <code>LAKERA_*</code> keys in <code>.env</code> and restart the API.</li>
+      <li>On the <strong>Integrations</strong> page the connector should switch from <em>mock</em> to <strong>connected</strong>.</li>
+      <li>For local model evaluation: <code>ollama pull llama3.2:1b</code>.</li>
+    </ol>
+  </div>
+
+  <div class="part">Part B &middot; Operating the Application</div>
+
+  <div class="step"><h3>B1. Sign in</h3>
+    <p>Open the app, enter your credentials (or a demo account), and click <strong>Sign in</strong>.</p>
+    <p class="exp"><b>Expected:</b> the Dashboard loads; your name + role appear top-right.</p>
+  </div>
+
+  <div class="step"><h3>B2. Set your preferences</h3>
+    <p><strong>Settings → Preferences:</strong> choose language, default project, notifications. These save to your account.</p>
+  </div>
+
+  <div class="step"><h3>B3. Register your LLM models <span style="color:#b70d4e">(AppSec/Owner)</span></h3>
+    <ol>
+      <li><strong>Model Coverage → Register model</strong>.</li>
+      <li>Set provider, deployment (hosted/local/custom), endpoint, environment, sensitivity, owner, use case.</li>
+      <li>Toggle the guardrails that apply (input/output/tool/logging).</li>
+    </ol>
+    <p class="exp"><b>Expected:</b> the model appears as a card with a computed risk level.</p>
+  </div>
+
+  <div class="step"><h3>B4. Test &amp; evaluate a model</h3>
+    <ol>
+      <li>Click <strong>Test</strong> — confirms the endpoint is reachable (latency).</li>
+      <li>Click <strong>Evaluate</strong> — runs adversarial probes (injection, jailbreak, leakage, harmful, PII).</li>
+    </ol>
+    <p class="exp"><b>Expected:</b> a resilience score (e.g., "100% resilient") with each probe's verdict and the model's real response. Unreachable endpoints return a <em>simulated</em> result.</p>
+  </div>
+
+  <div class="step"><h3>B5. Scan a file before it enters RAG <span style="color:#b70d4e">(SOC/AppSec/Owner)</span></h3>
+    <ol>
+      <li><strong>File Security Gateway</strong> → pick source + scan engine.</li>
+      <li>Drop a file. Read the verdict; malicious/suspicious are blocked from retrieval.</li>
+    </ol>
+  </div>
+
+  <div class="step"><h3>B6. Inspect a prompt <span style="color:#b70d4e">(SOC/AppSec/Owner)</span></h3>
+    <p><strong>Lakera Guard</strong> → choose Input/Output, paste a prompt, <strong>Send</strong>. Review the risk score, decision, and violations; tune thresholds in the Policy panel.</p>
+  </div>
+
+  <div class="step"><h3>B7. Assess controls &amp; review risks</h3>
+    <ol>
+      <li><strong>Layer Assessment</strong> — mark each control Not implemented → Planned → Implemented → Verified.</li>
+      <li><strong>Risk Register</strong> — update risk status; expand to see mitigating controls.</li>
+    </ol>
+    <p class="exp"><b>Expected:</b> the Dashboard AI Security Score updates as posture changes.</p>
+  </div>
+
+  <div class="step"><h3>B8. Check compliance &amp; generate reports</h3>
+    <ol>
+      <li><strong>Compliance</strong> — review coverage across OWASP, NIST AI RMF, EU AI Act, ISO 42001, MITRE ATLAS; <strong>Export report</strong> per framework.</li>
+      <li><strong>Report Generator</strong> — export the full assessment as Markdown or PDF.</li>
+    </ol>
+  </div>
+
+  <div class="step"><h3>B9. Administer users <span style="color:#b70d4e">(Owner)</span></h3>
+    <p><strong>Settings → User Management</strong>: <strong>Add user</strong>, change roles inline, reset passwords, or delete. You can't delete yourself or the last Owner.</p>
+  </div>
+
+  <div class="part">Part C &middot; Maintenance &amp; Operations</div>
+
+  <div class="step"><h3>C1. Enforce the security-score gate (CI)</h3>
+    <pre>cd server
+SCORE_MIN=60 SCORE_PROJECT=proj-copilot npm run score:gate</pre>
+    <p class="exp"><b>Result:</b> exits non-zero (fails the pipeline) if the project's score is below the threshold.</p>
+  </div>
+
+  <div class="step"><h3>C2. Back up &amp; restore data</h3>
+    <ul>
+      <li><strong>Postgres:</strong> <code>pg_dump</code> / <code>pg_restore</code> the database; the Docker volume is <code>pgdata</code>.</li>
+      <li><strong>SQLite (dev):</strong> copy <code>server/prisma/dev.db</code>.</li>
+    </ul>
+  </div>
+
+  <div class="step"><h3>C3. Update / re-deploy</h3>
+    <pre>git pull
+cd server &amp;&amp; npm install &amp;&amp; npx prisma migrate deploy   # apply new migrations
+docker compose up --build -d                              # or restart the services</pre>
+  </div>
+
+  <div class="step"><h3>C4. Run tests &amp; stop the stack</h3>
+    <pre>npm test &amp;&amp; (cd server &amp;&amp; npm test)      # verify before shipping
+docker compose down                       # stop (add -v to drop the DB volume)</pre>
+  </div>
+</div>
+  <div class="footer">
+    <span>Check Point Software Technologies — AI Security Stack Mapper</span>
+    <span>Configuration &amp; Operating Instructions · v1.0.0 · Confidential</span>
+  </div>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Usage Guide — AI Security Stack Mapper</title>
+    <style>
+      @page { size: A4; margin: 14mm 14mm 16mm; }
+      * { box-sizing: border-box; }
+      html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      body { font-family: Arial, Helvetica, sans-serif; color: #41273c; font-size: 11px; line-height: 1.55; margin: 0; }
+      h1, h2, h3 { margin: 0; }
+      p { margin: 0 0 8px; }
+      a { color: #b70d4e; text-decoration: none; }
+      code { font-family: Consolas, monospace; font-size: 10px; background: #f2f2f2; padding: 1px 5px; color: #41273c; }
+      pre { background: #f2f2f2; border-left: 3px solid #ee0c5d; padding: 10px 12px; font-family: Consolas, monospace; font-size: 10px; margin: 8px 0; white-space: pre-wrap; color: #41273c; }
+      ol, ul { margin: 4px 0 9px; padding-left: 18px; }
+      li { margin-bottom: 3px; }
+
+      .cover { background: #41273c; color: #fff; padding: 22px 26px; border-bottom: 6px solid #ee0c5d; display: flex; justify-content: space-between; align-items: flex-end; }
+      .cover svg { height: 24px; display: block; }
+      .cover .eyebrow { color: #ee0c5d; font-size: 10px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-top: 16px; }
+      .cover h1 { color: #fff; font-size: 23px; margin: 7px 0 3px; }
+      .cover .sub { color: #d9c7d1; font-size: 11px; }
+      .cover .ver { text-align: right; color: #fff; font-size: 10px; line-height: 1.7; }
+      .cover .ver .tag { display: inline-block; background: #ee0c5d; color: #fff; font-weight: bold; padding: 2px 8px; letter-spacing: 1px; }
+
+      .wrap { padding: 16px 26px 0; }
+      h2 { font-size: 14px; color: #41273c; border-bottom: 2px solid #ee0c5d; padding-bottom: 5px; margin: 18px 0 9px; }
+      h2 .n { color: #ee0c5d; }
+      .role { display: inline-block; background: #f2f2f2; border-left: 3px solid #ee0c5d; color: #b70d4e; font-size: 9px; font-weight: bold; text-transform: uppercase; letter-spacing: .4px; padding: 1px 6px; margin-left: 6px; vertical-align: middle; }
+
+      table { width: 100%; border-collapse: collapse; font-size: 10px; margin: 6px 0 10px; }
+      th, td { text-align: left; padding: 5px 8px; border: 1px solid #ddd6da; vertical-align: top; }
+      th { background: #41273c; color: #fff; text-transform: uppercase; font-size: 8.5px; letter-spacing: 0.4px; }
+      td.c, th.c { text-align: center; }
+      tr:nth-child(even) td { background: #f7f5f6; }
+
+      .callout { background: #f2f2f2; border-left: 4px solid #ee0c5d; padding: 8px 12px; margin: 9px 0; }
+      .avoid { page-break-inside: avoid; }
+      .yes { color: #ee0c5d; font-weight: bold; }
+      .footer { margin: 20px 26px 0; border-top: 1px solid #ddd6da; padding: 8px 0; color: #8a7c85; font-size: 9px; display: flex; justify-content: space-between; }
+    </style>
+  </head>
+  <body>
+    <div class="cover">
+      <div>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 205 44"><path fill="#fff" d="M46.7,29.9h0c0-4.3,3.2-7.8,7.7-7.8s4.4.9,5.8,2.3l-2.1,2.4c-1.1-1-2.3-1.7-3.8-1.7-2.5,0-4.3,2.1-4.3,4.6h0c0,2.6,1.7,4.7,4.3,4.7s2.7-.7,3.9-1.7l2.1,2.1c-1.5,1.6-3.2,2.7-6,2.7-4.3,0-7.5-3.4-7.5-7.7Z"/><path fill="#fff" d="M62.9,22.4h3.2v5.9h6v-5.9h3.2v14.9h-3.2v-6h-6v6h-3.2v-14.9Z"/><path fill="#fff" d="M79.2,22.4h11.1v2.9h-7.9v3h6.9v2.9h-6.9v3.1h8v2.9h-11.2v-14.9Z"/><path fill="#fff" d="M92.7,29.9h0c0-4.3,3.2-7.8,7.7-7.8s4.4.9,5.8,2.3l-2.1,2.4c-1.1-1-2.3-1.7-3.8-1.7-2.5,0-4.3,2.1-4.3,4.6h0c0,2.6,1.7,4.7,4.3,4.7s2.7-.7,3.9-1.7l2.1,2.1c-1.5,1.6-3.2,2.7-6,2.7-4.3,0-7.5-3.4-7.5-7.7Z"/><path fill="#fff" d="M108.8,22.4h3.2v6.5l6-6.5h3.9l-6,6.3,6.3,8.6h-3.9l-4.6-6.4-1.7,1.8v4.6h-3.2v-14.9h0Z"/><path fill="#fff" d="M130.8,22.4h6c3.5,0,5.6,2.1,5.6,5.2h0c0,3.5-2.6,5.3-6,5.3h-2.5v4.5h-3.2v-14.9h0ZM136.6,29.9c1.6,0,2.6-1,2.6-2.3h0c0-1.5-1-2.3-2.6-2.3h-2.5v4.6h2.6,0Z"/><path fill="#fff" d="M144.5,29.9h0c0-4.3,3.3-7.8,7.8-7.8s7.8,3.4,7.8,7.7h0c0,4.3-3.3,7.8-7.8,7.8s-7.8-3.4-7.8-7.7ZM156.8,29.9h0c0-2.6-1.8-4.7-4.5-4.7s-4.4,2.1-4.4,4.6h0c0,2.6,1.8,4.7,4.5,4.7s4.4-2.1,4.4-4.6Z"/><path fill="#fff" d="M163.3,22.4h3.2v14.9h-3.2v-14.9Z"/><path fill="#fff" d="M170.6,22.4h3l6.9,9.2v-9.2h3.2v14.9h-2.8l-7.1-9.5v9.5h-3.2v-14.9Z"/><path fill="#fff" d="M191,25.4h-4.5v-3h12.2v3h-4.5v11.9h-3.2v-11.9h0Z"/><path fill="#fff" d="M201.8,24.4h-.4v-1.7h-.6v-.3h1.6v.3h-.6v1.7h0Z"/><path fill="#fff" d="M204,23.9h0l-.6-1v1.5h-.4v-2.1h.4l.6,1,.6-1h.4v2.1h-.3v-1.5l-.6,1h0Z"/><path fill="#fff" d="M44.2,11.2c-2.3,2.9-6.5,3.4-9.4,1-2.9-2.3-3.3-6.6-1-9.5,2.3-2.9,6.5-3.4,9.4-1,2.9,2.3,3.3,6.6,1,9.5Z"/><path fill="#ee0c5d" d="M35.2,21.7c-1.8.9-4.1.8-6-.2l-5.2,7.1c.7.8,1,1.7,1.1,2.7,0,.9-.2,1.8-.7,2.6-1.3,2.1-4,2.7-6.1,1.3-.2-.1-.4-.3-.6-.5,0,0-.1-.1-.2-.2-.1-.1-.2-.3-.3-.4,0,0,0-.1-.1-.2-.1-.2-.2-.4-.3-.6,0,0,0-.1,0-.2,0-.2-.1-.3-.2-.5,0,0,0-.1,0-.2,0-.2,0-.4-.1-.7v-.2c0-.2,0-.4,0-.6h0c0-.4,0-.6.1-.8,0,0,0-.1,0-.2,0-.2.2-.5.3-.7l-4.2-3.2-1.3,1.8-4.8-3.7,3.6-4.9,4.8,3.7-1.3,1.8,4.3,3.3c1.3-1.1,3.2-1.4,4.8-.5l5.2-7c-2.1-2.1-2.6-5.4-1.1-8.1.3-.5.7-1,1.1-1.4-2.8-2-6.3-3.1-10-3.1C8,7.8,0,15.9,0,25.9c0,10,7.9,18.1,17.8,18.1,9.8,0,17.8-8,17.9-18,0-1.5-.2-2.9-.5-4.2Z"/></svg>
+        <div class="eyebrow">AI Security Stack Mapper</div>
+        <h1>Usage Guide</h1>
+        <div class="sub">A step-by-step walkthrough, by role</div>
+      </div>
+      <div class="ver"><span class="tag">v1.0.0</span><br />June 2026</div>
+    </div>
+
+    <div class="wrap">
+      <div class="callout">
+        Roles in the tags below indicate who can perform an action. <strong>Viewers</strong>
+        see everything but editing/run actions are hidden or disabled. In <strong>Local
+        mode</strong> (no backend) everything is enabled for a single user.
+      </div>
+
+      <section class="avoid">
+        <h2><span class="n">1.</span> Sign In</h2>
+        <ol>
+          <li>Open the app (<code>localhost:5173</code> in dev, <code>localhost:8080</code> via Docker).</li>
+          <li>Enter email + password, or click a <strong>demo account</strong> (password <code>Demo!1234</code>).</li>
+          <li>You land on the <strong>Dashboard</strong>. Your session is private (httpOnly cookie); your role shows top-right. Sign out from the account menu.</li>
+        </ol>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">2.</span> Dashboard — Read Your Posture</h2>
+        <ul>
+          <li><strong>Top row:</strong> protected layers, open risks, critical gaps, active incidents.</li>
+          <li><strong>Vendor Protection &amp; Model Coverage:</strong> files scanned, malicious blocked, injections blocked, models covered, local protected, unguarded, high-risk.</li>
+          <li><strong>AI Security Score</strong> ring with the bonuses/penalties behind it; <strong>Layer Posture</strong>, recent incidents, compliance status.</li>
+        </ul>
+        <p>Use the <strong>project selector</strong> (top-left) to switch projects; set a default in Settings.</p>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">3.</span> LLM Stack Map — See The Architecture</h2>
+        <ol>
+          <li>Open <strong>LLM Stack Map</strong>.</li>
+          <li>Pan/zoom the defense-in-depth flow; nodes are colored by status.</li>
+          <li><strong>Click any node</strong> to open the inspector. <span class="role">Editors</span> change status, owner, evidence link, notes, or delete.</li>
+        </ol>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">4.</span> Layer Assessment — Mark Maturity <span class="role">AppSec / Owner</span></h2>
+        <p>Set each control <strong>Not implemented → Planned → Implemented → Verified</strong>. Per-layer coverage % updates instantly and the score recalculates.</p>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">5.</span> Risk Register — Track Threats <span class="role">SOC / AppSec / Owner</span></h2>
+        <ol>
+          <li>Filter by severity; expand a risk to see mitigating controls + OWASP mapping.</li>
+          <li>Change a risk's <strong>status</strong> (Open → Mitigating → Mitigated / Accepted).</li>
+        </ol>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">6.</span> Control Library &amp; Architecture Builder</h2>
+        <ul>
+          <li><strong>Control Library</strong> — browse/filter all controls; <span class="role">AppSec / Owner</span> add a control or change status inline.</li>
+          <li><strong>Architecture Builder</strong> — drag controls from the palette onto the canvas and arrange them; click a node to edit.</li>
+        </ul>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">7.</span> File Security Gateway — Scan A File <span class="role">SOC / AppSec / Owner</span></h2>
+        <ol>
+          <li>Choose an <strong>ingestion source</strong> and <strong>scan engine</strong> (Check Point Threat Emulation / TE File Scan).</li>
+          <li><strong>Drop a file</strong> (or browse). It's hashed locally and scanned.</li>
+          <li>Read the <strong>verdict</strong>; malicious &amp; suspicious files are <strong>blocked from retrieval</strong>. Open the evidence viewer or <strong>Retry</strong>.</li>
+        </ol>
+        <div class="callout">Demo tip: filenames containing <code>malware</code>, <code>.exe</code>, <code>macro</code>, or <code>invoice-</code> return bad verdicts so blocking is demonstrable.</div>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">8.</span> Lakera Guard — Inspect A Prompt <span class="role">SOC / AppSec / Owner</span></h2>
+        <ol>
+          <li>Pick <strong>Input</strong> or <strong>Output</strong> stage; paste a prompt (or use a sample).</li>
+          <li>Click <strong>Send to Lakera Guard</strong> → risk score, decision (allow / block / redact / escalate), and violation categories; added to the <strong>Inspection Log</strong>. Tune thresholds in the Policy panel.</li>
+        </ol>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">9.</span> Model Coverage — Register, Test &amp; Evaluate</h2>
+        <ol>
+          <li><span class="role">AppSec / Owner</span> <strong>Register model</strong> — provider, deployment (hosted/local/custom), endpoint, environment, sensitivity, owner, use case. Local models add network-isolation / internet-access / integrity controls.</li>
+          <li>Toggle guardrails (input/output/tool/logging); per-model <strong>risk level</strong> updates.</li>
+          <li><strong>Test</strong> — checks the endpoint is reachable (latency).</li>
+          <li><strong>Evaluate</strong> — runs an adversarial probe suite (prompt injection, system-prompt leakage, jailbreak, harmful content, PII) and reports a <strong>resilience score</strong> with each probe's verdict + the model's actual response. Unreachable endpoints produce a <strong>simulated</strong> result.</li>
+        </ol>
+        <p>Evaluate a real local LLM (Ollama):</p>
+        <pre>ollama pull llama3.2:1b
+# Register a local model with endpoint http://localhost:11434/api/generate
+# and model name "llama3.2:1b", then click Evaluate.</pre>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">10.</span> Integrations</h2>
+        <p>See each vendor connector's <strong>status</strong> (mock / connected), auth method, base URL, and protected layers. <span class="role">Owner</span> enable/disable a connector. The <strong>API Key Configuration</strong> panel lists the env variables to switch to live mode.</p>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">11.</span> Compliance — Frameworks &amp; Reports</h2>
+        <ol>
+          <li>Pick a framework — <strong>OWASP LLM Top 10, NIST AI RMF, EU AI Act, ISO/IEC 42001, MITRE ATLAS</strong>. Each shows coverage % and covered/partial/gap counts.</li>
+          <li>Expand a requirement to see the <strong>controls mapped</strong> to it and their status.</li>
+          <li><strong>Export report</strong> downloads a per-framework Markdown compliance report.</li>
+        </ol>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">12.</span> Report Generator</h2>
+        <p>The full assessment — executive summary, architecture overview, layer findings, control status, gaps, remediation plan. Export as <strong>Markdown</strong> or <strong>PDF</strong> (Print).</p>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">13.</span> Settings</h2>
+        <ul>
+          <li><strong>Profile &amp; Session</strong> — your name, email, role, and session info.</li>
+          <li><strong>Preferences</strong> — language, default project, notifications. These save to <strong>your account</strong> and follow you across devices/sessions.</li>
+          <li><strong>User Management</strong> <span class="role">Owner</span> — <strong>Add user</strong> (email, name, role, temporary password); change role inline, reset password, or delete. You can't delete yourself or the last Owner.</li>
+        </ul>
+      </section>
+
+      <section class="avoid">
+        <h2><span class="n">★</span> Quick Role Reference</h2>
+        <table>
+          <tr><th>Action</th><th class="c">Owner</th><th class="c">AppSec</th><th class="c">SOC</th><th class="c">Viewer</th></tr>
+          <tr><td>View everything</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td></tr>
+          <tr><td>Edit controls / models</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c">—</td><td class="c">—</td></tr>
+          <tr><td>Edit risks / incidents</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c">—</td></tr>
+          <tr><td>Run scans / inspections / model evals</td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c"><span class="yes">✓</span></td><td class="c">—</td></tr>
+          <tr><td>Toggle integrations</td><td class="c"><span class="yes">✓</span></td><td class="c">—</td><td class="c">—</td><td class="c">—</td></tr>
+          <tr><td>Manage users</td><td class="c"><span class="yes">✓</span></td><td class="c">—</td><td class="c">—</td><td class="c">—</td></tr>
+        </table>
+      </section>
+    </div>
+
+    <div class="footer">
+      <span>Check Point Software Technologies — AI Security Stack Mapper</span>
+      <span>Usage Guide · v1.0.0 · Confidential</span>
+    </div>
+  </body>
+</html>

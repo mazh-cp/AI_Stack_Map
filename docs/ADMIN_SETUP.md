@@ -88,10 +88,10 @@ and no login is required.
 
 | Email | Role |
 | --- | --- |
-| `owner@checkpoint.com` | Owner |
-| `appsec@checkpoint.com` | AppSec |
-| `soc@checkpoint.com` | SOC |
-| `viewer@checkpoint.com` | Viewer |
+| `owner@imbsys.com` | Owner |
+| `appsec@imbsys.com` | AppSec |
+| `soc@imbsys.com` | SOC |
+| `viewer@imbsys.com` | Viewer |
 
 **Production:** seeding is blocked when `NODE_ENV=production` (unless
 `ALLOW_SEED=true`). Create your first **Owner** with the bootstrap CLI:
